@@ -5,7 +5,7 @@ animation, VFX, AR, FOOH, and creative technology.
 
 ## Live site
 
-[wselviz.github.io/will-selviz-nike-universe](https://wselviz.github.io/will-selviz-nike-universe/)
+[wselviz.github.io/nike_portfolio](https://wselviz.github.io/nike_portfolio/)
 
 ## Local development
 
