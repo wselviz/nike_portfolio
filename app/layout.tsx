@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const metadataBase = new URL(`${protocol}://${host}`);
   const title = "Will Selviz — Nike Project Universe";
   const description =
-    "An interactive timeline of Will Selviz's Nike work across CGI, 3D animation, VFX, AR, FOOH, and creative technology from 2020 to 2026.";
+    "An interactive timeline of Will Selviz's Nike work across CGI, 3D animation, VFX, AR, FOOH, and creative technology from 2020 to 2025.";
   const image = new URL("/og-v2.png", metadataBase).toString();
 
   return {

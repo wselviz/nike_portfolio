@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
-type ProjectStatus = "Confirmed" | "Concept" | "Proposal";
+type ProjectStatus = "Confirmed";
 
 type MediaItem = {
   type: "video" | "image";
@@ -31,34 +31,6 @@ type Project = {
 };
 
 const projects: Project[] = [
-  {
-    id: "nikeskims",
-    year: "2026",
-    title: "NikeSKIMS Launch Proposal",
-    region: "Global",
-    status: "Proposal",
-    discipline: "CGI / FOOH direction",
-    summary:
-      "A launch direction developed through Narrative, translating a new partnership into a cinematic fake-out-of-home system.",
-    role: "Creative direction, CGI systems, proposal development",
-    deliverables: ["CGI direction", "FOOH concepts", "Launch proposal"],
-    impactRank: 10,
-    accent: "#c7b8ff",
-  },
-  {
-    id: "printed-content",
-    year: "2025–26",
-    title: "3D Printed Content Research",
-    region: "Exploratory",
-    status: "Concept",
-    discipline: "Materials / activation research",
-    summary:
-      "Plant-based material research, additive-manufacturing studies, and activation references assembled into a future-facing content direction.",
-    role: "Research, creative technology, concept development",
-    deliverables: ["3D-print research", "Plant-based materials", "Activation references"],
-    impactRank: 11,
-    accent: "#f2ff79",
-  },
   {
     id: "tec",
     year: "2025",
@@ -428,25 +400,18 @@ function ArrowIcon() {
   return <span aria-hidden="true">↗</span>;
 }
 
-function SignalVisual({ project }: { project: Project }) {
-  return (
-    <div className="signal-visual" style={{ "--accent": project.accent } as React.CSSProperties}>
-      <div className="signal-grid" />
-      <div className="signal-orbit signal-orbit-one" />
-      <div className="signal-orbit signal-orbit-two" />
-      <div className="signal-core" />
-      <p>{project.status === "Proposal" ? "PITCH / 01" : "R&D / MATERIAL STUDY"}</p>
-    </div>
-  );
-}
-
-function ProjectMedia({ project }: { project: Project }) {
+function ProjectMedia({ project, onOpen }: { project: Project; onOpen: () => void }) {
   if (!project.media) {
-    return <SignalVisual project={project} />;
+    return null;
   }
 
   return (
-    <div className="project-media">
+    <button
+      type="button"
+      className="project-media"
+      onClick={onOpen}
+      aria-label={`Open ${project.title} campaign portfolio`}
+    >
       <video
         data-auto-video
         src={project.media}
@@ -457,10 +422,12 @@ function ProjectMedia({ project }: { project: Project }) {
         preload="metadata"
         aria-label={`${project.title} project preview`}
       />
-      <span className="media-label">MOTION PREVIEW / MUTED</span>
+      <span className="media-label">
+        VIEW CAMPAIGN / {String(project.gallery?.length ?? 0).padStart(2, "0")} ASSETS
+      </span>
       <span className="media-corner media-corner-top" />
       <span className="media-corner media-corner-bottom" />
-    </div>
+    </button>
   );
 }
 
@@ -585,7 +552,7 @@ export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const activeProjectRef = useRef(0);
   const [sortMode, setSortMode] = useState<"latest" | "impact">("latest");
-  const [activeId, setActiveId] = useState("nikeskims");
+  const [activeId, setActiveId] = useState("tec");
   const [selected, setSelected] = useState<Project | null>(null);
   const [introComplete, setIntroComplete] = useState(false);
 
@@ -627,6 +594,11 @@ export default function Home() {
 
   useEffect(() => {
     const videos = Array.from(document.querySelectorAll<HTMLVideoElement>("[data-auto-video]"));
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) {
+      videos.forEach((video) => video.pause());
+      return;
+    }
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -850,7 +822,7 @@ export default function Home() {
       <canvas ref={canvasRef} className="webgl-stage" aria-hidden="true" />
       <div className="noise" aria-hidden="true" />
       <div className="ascii-field" aria-hidden="true">
-        <span>░▒▓ WS_SYS / 3D / VFX / AI / 2020—26 ▓▒░</span>
+        <span>░▒▓ WS_SYS / 3D / VFX / AI / 2020—25 ▓▒░</span>
         <span>010101 :: R&amp;D → IMPLEMENTATION :: 101010</span>
       </div>
 
@@ -869,7 +841,7 @@ export default function Home() {
       <section className="hero" id="top">
         <div className="hero-kicker">
           <span>NIKE PROJECT UNIVERSE</span>
-          <span>2020—2026</span>
+          <span>2020—2025</span>
         </div>
         <div className="hero-title-wrap">
           <p className="hero-number">09 / CONFIRMED</p>
@@ -902,6 +874,92 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="origin-exposure" aria-labelledby="origin-exposure-title">
+        <div className="origin-exposure-copy">
+          <p className="section-label">00 / ORIGIN FILES</p>
+          <h2 id="origin-exposure-title">
+            The work started
+            <br />
+            <span>as a shoe.</span>
+          </h2>
+          <p>
+            Before the campaigns, <em>Solely</em> turned sketches, scans, 3D
+            prints, and material experiments into a working method: explore the
+            impossible, build the pipeline, then make the image real.
+          </p>
+          <div className="origin-exposure-meta" aria-label="Origin archive details">
+            <span>THESIS / PROTOTYPES / PROCESS</span>
+            <span>TORONTO / 2016</span>
+          </div>
+        </div>
+
+        <div className="origin-collage" aria-label="A collage of Will Selviz's early thesis work">
+          <figure className="origin-tile origin-tile-board">
+            <img
+              src="/origin/thesis-board.webp"
+              loading="lazy"
+              alt="Solely thesis board with sneaker sketches, renders, and prototypes"
+            />
+            <figcaption>THESIS BOARD / 001</figcaption>
+          </figure>
+          <figure className="origin-tile origin-tile-motion">
+            <img
+              src="/origin/motion-study.webp"
+              loading="lazy"
+              alt="Digital particle study of a sneaker form"
+            />
+            <figcaption>FORM STUDY / 002</figcaption>
+          </figure>
+          <figure className="origin-tile origin-tile-studio">
+            <img
+              src="/origin/studio-01.webp"
+              loading="lazy"
+              alt="Will Selviz working with a desktop fabrication machine"
+            />
+            <figcaption>MAKING / 003</figcaption>
+          </figure>
+          <figure className="origin-tile origin-tile-sole">
+            <img
+              src="/origin/studio-02.webp"
+              loading="lazy"
+              alt="Hand holding a 3D-printed sneaker sole prototype"
+            />
+            <figcaption>PROTOTYPE / 004</figcaption>
+          </figure>
+          <figure className="origin-tile origin-tile-upcycle">
+            <video
+              data-auto-video
+              src="/origin/upcycle-loop.mp4"
+              poster="/origin/upcycle-poster.webp"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-label="Animated translucent sneaker concept"
+            />
+            <figcaption>UP-CYCLE LOOP / 005</figcaption>
+          </figure>
+          <figure className="origin-tile origin-tile-scan">
+            <video
+              data-auto-video
+              src="/origin/scan-loop.mp4"
+              poster="/origin/scan-poster.webp"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-label="Animated white sneaker scan"
+            />
+            <figcaption>SCAN / 006</figcaption>
+          </figure>
+          <span className="origin-collage-stamp" aria-hidden="true">
+            ░▒▓ WORKING ARCHIVE / EXPOSED ▓▒░
+          </span>
+        </div>
+      </section>
+
       <section className="manifesto" aria-labelledby="manifesto-title">
         <p className="section-label">01 / PRACTICE</p>
         <h2 id="manifesto-title">
@@ -926,7 +984,7 @@ export default function Home() {
         <div className="archive-head">
           <div>
             <p className="section-label">02 / PROJECT INDEX</p>
-            <h2 id="projects-title">Seven years. One moving archive.</h2>
+            <h2 id="projects-title">Six years. One moving archive.</h2>
           </div>
           <div className="sort-control" aria-label="Sort project archive">
             <button
@@ -996,7 +1054,7 @@ export default function Home() {
                   </button>
                 </div>
               </div>
-              <ProjectMedia project={project} />
+              <ProjectMedia project={project} onOpen={() => setSelected(project)} />
             </article>
           ))}
         </div>

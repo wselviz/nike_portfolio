@@ -37,6 +37,10 @@ test("server-renders the Nike project universe", async () => {
   assert.match(html, /Toronto Air Max 95/);
   assert.match(html, /Air Max Day Worldwide/);
   assert.match(html, /Canada Soccer Jersey/);
+  assert.match(html, /The work started/);
+  assert.match(html, /THESIS BOARD/);
+  assert.doesNotMatch(html, /NikeSKIMS Launch Proposal/);
+  assert.doesNotMatch(html, /3D Printed Content Research/);
 });
 
 test("ships finished metadata with no starter preview", async () => {
