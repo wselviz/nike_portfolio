@@ -8,10 +8,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const protocol =
     requestHeaders.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
   const metadataBase = new URL(`${protocol}://${host}`);
-  const title = "Will Selvis — Nike Project Universe";
+  const title = "Will Selviz — Nike Project Universe";
   const description =
-    "An interactive timeline of Will Selvis's Nike work across CGI, 3D animation, VFX, AR, FOOH, and creative technology from 2020 to 2026.";
-  const image = new URL("/og.png", metadataBase).toString();
+    "An interactive timeline of Will Selviz's Nike work across CGI, 3D animation, VFX, AR, FOOH, and creative technology from 2020 to 2026.";
+  const image = new URL("/og-v2.png", metadataBase).toString();
 
   return {
     metadataBase,
@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title,
       description,
       type: "website",
-      images: [{ url: image, width: 1200, height: 630, alt: "Will Selvis Nike Project Universe" }],
+      images: [{ url: image, width: 1200, height: 630, alt: "Will Selviz Nike Project Universe" }],
     },
     twitter: {
       card: "summary_large_image",

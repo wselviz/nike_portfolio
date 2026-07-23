@@ -10,8 +10,8 @@ async function render() {
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
-    new Request("https://will-selvis-nike.example/", {
-      headers: { accept: "text/html", host: "will-selvis-nike.example" },
+    new Request("https://will-selviz-nike.example/", {
+      headers: { accept: "text/html", host: "will-selviz-nike.example" },
     }),
     {
       ASSETS: {
@@ -31,7 +31,7 @@ test("server-renders the Nike project universe", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>Will Selvis — Nike Project Universe<\/title>/i);
+  assert.match(html, /<title>Will Selviz — Nike Project Universe<\/title>/i);
   assert.match(html, /NIKE PROJECT UNIVERSE/);
   assert.match(html, /THE WORK/);
   assert.match(html, /Toronto Air Max 95/);
@@ -47,5 +47,5 @@ test("ships finished metadata with no starter preview", async () => {
   assert.doesNotMatch(html, /Your site is taking shape|SkeletonPreview|react-loading-skeleton/i);
   assert.match(html, /property="og:image"/i);
   assert.match(html, /name="twitter:card" content="summary_large_image"/i);
-  assert.match(html, /https:\/\/will-selvis-nike\.example\/og\.png/);
+  assert.match(html, /https:\/\/will-selviz-nike\.example\/og-v2\.png/);
 });

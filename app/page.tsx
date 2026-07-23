@@ -5,6 +5,14 @@ import * as THREE from "three";
 
 type ProjectStatus = "Confirmed" | "Concept" | "Proposal";
 
+type MediaItem = {
+  type: "video" | "image";
+  src: string;
+  poster?: string;
+  label: string;
+  aspect: "portrait" | "landscape" | "square";
+};
+
 type Project = {
   id: string;
   year: string;
@@ -17,6 +25,7 @@ type Project = {
   deliverables: string[];
   media?: string;
   poster?: string;
+  gallery?: MediaItem[];
   impactRank: number;
   accent: string;
 };
@@ -69,6 +78,43 @@ const projects: Project[] = [
     ],
     media: "/media/2025-tec.mp4",
     poster: "/media/2025-tec.webp",
+    gallery: [
+      {
+        type: "video",
+        src: "/gallery/tec/r1-v5.mp4",
+        poster: "/gallery/tec/r1-v5-poster.webp",
+        label: "Opening Film / R1 V5",
+        aspect: "portrait",
+      },
+      {
+        type: "video",
+        src: "/gallery/tec/nike-by-you.mp4",
+        poster: "/gallery/tec/nike-by-you-poster.webp",
+        label: "Nike By You",
+        aspect: "portrait",
+      },
+      {
+        type: "video",
+        src: "/gallery/tec/nike-playground.mp4",
+        poster: "/gallery/tec/nike-playground-poster.webp",
+        label: "Nike Playground",
+        aspect: "portrait",
+      },
+      {
+        type: "video",
+        src: "/gallery/tec/reel-athletes.mp4",
+        poster: "/gallery/tec/reel-athletes-poster.webp",
+        label: "Social Reel / Athletes",
+        aspect: "portrait",
+      },
+      {
+        type: "video",
+        src: "/gallery/tec/reel-no-athletes.mp4",
+        poster: "/gallery/tec/reel-no-athletes-poster.webp",
+        label: "Social Reel / No Athletes",
+        aspect: "portrait",
+      },
+    ],
     impactRank: 2,
     accent: "#ff4d25",
   },
@@ -85,6 +131,29 @@ const projects: Project[] = [
     deliverables: ["Main reel", "Teaser films", "9:16 imagery", "Photography support"],
     media: "/media/2025-bata.mp4",
     poster: "/media/2025-bata.webp",
+    gallery: [
+      {
+        type: "video",
+        src: "/gallery/bata/main-reel.mp4",
+        poster: "/gallery/bata/main-reel-poster.webp",
+        label: "Main Museum Reel",
+        aspect: "portrait",
+      },
+      {
+        type: "video",
+        src: "/gallery/bata/teaser-1.mp4",
+        poster: "/gallery/bata/teaser-1-poster.webp",
+        label: "Teaser Film / 01",
+        aspect: "portrait",
+      },
+      {
+        type: "video",
+        src: "/gallery/bata/teaser-2.mp4",
+        poster: "/gallery/bata/teaser-2-poster.webp",
+        label: "Teaser Film / 02",
+        aspect: "portrait",
+      },
+    ],
     impactRank: 3,
     accent: "#d7ff34",
   },
@@ -107,6 +176,42 @@ const projects: Project[] = [
     ],
     media: "/media/2024-am95.mp4",
     poster: "/media/2024-am95.webp",
+    gallery: [
+      {
+        type: "video",
+        src: "/gallery/am95/billboard.mp4",
+        poster: "/gallery/am95/billboard-poster.webp",
+        label: "DOOH Billboard",
+        aspect: "landscape",
+      },
+      {
+        type: "image",
+        src: "/gallery/am95/cne-render.webp",
+        label: "CNE Campaign Render",
+        aspect: "portrait",
+      },
+      {
+        type: "video",
+        src: "/gallery/am95/revised-master.mp4",
+        poster: "/gallery/am95/revised-master-poster.webp",
+        label: "Campaign Master",
+        aspect: "portrait",
+      },
+      {
+        type: "video",
+        src: "/gallery/am95/kensington-4x5.mp4",
+        poster: "/gallery/am95/kensington-4x5-poster.webp",
+        label: "Kensington / 4:5",
+        aspect: "portrait",
+      },
+      {
+        type: "video",
+        src: "/gallery/am95/kensington-9x16.mp4",
+        poster: "/gallery/am95/kensington-9x16-poster.webp",
+        label: "Kensington / 9:16",
+        aspect: "portrait",
+      },
+    ],
     impactRank: 1,
     accent: "#fd4aa1",
   },
@@ -123,6 +228,22 @@ const projects: Project[] = [
     deliverables: ["Branded social film", "No-logo placement", "Regional launch assets"],
     media: "/media/2021-dubai.mp4",
     poster: "/media/2021-dubai.webp",
+    gallery: [
+      {
+        type: "video",
+        src: "/gallery/dubai/logo-version.mp4",
+        poster: "/gallery/dubai/logo-version-poster.webp",
+        label: "Regional Launch / Branded",
+        aspect: "portrait",
+      },
+      {
+        type: "video",
+        src: "/gallery/dubai/no-logo-version.mp4",
+        poster: "/gallery/dubai/no-logo-version-poster.webp",
+        label: "Regional Launch / No Logo",
+        aspect: "portrait",
+      },
+    ],
     impactRank: 7,
     accent: "#58a5ff",
   },
@@ -139,6 +260,21 @@ const projects: Project[] = [
     deliverables: ["Campaign film", "Conveyor loop", "High-resolution frame sequence"],
     media: "/media/2021-kuwait.mp4",
     poster: "/media/2021-kuwait.webp",
+    gallery: [
+      {
+        type: "video",
+        src: "/gallery/kuwait/campaign-film.mp4",
+        poster: "/gallery/kuwait/campaign-film-poster.webp",
+        label: "Air Max Day Campaign Film",
+        aspect: "portrait",
+      },
+      {
+        type: "image",
+        src: "/gallery/kuwait/conveyor-frame.webp",
+        label: "Conveyor Sequence Frame",
+        aspect: "landscape",
+      },
+    ],
     impactRank: 6,
     accent: "#c6a7ff",
   },
@@ -155,6 +291,15 @@ const projects: Project[] = [
     deliverables: ["Spark AR experience", "Lens Studio experience", "GIF system", "GIPHY assets"],
     media: "/media/2021-ofsaa.mp4",
     poster: "/media/2021-ofsaa.webp",
+    gallery: [
+      {
+        type: "video",
+        src: "/gallery/ofsaa/finish-on-empty.mp4",
+        poster: "/gallery/ofsaa/finish-on-empty-poster.webp",
+        label: "Finish On Empty / GIPHY",
+        aspect: "square",
+      },
+    ],
     impactRank: 8,
     accent: "#ffffff",
   },
@@ -177,6 +322,28 @@ const projects: Project[] = [
     ],
     media: "/media/2021-amd.mp4",
     poster: "/media/2021-amd.webp",
+    gallery: [
+      {
+        type: "video",
+        src: "/gallery/amd/giphy-loop.mp4",
+        poster: "/gallery/amd/giphy-loop-poster.webp",
+        label: "Air Max Day / GIPHY Loop",
+        aspect: "landscape",
+      },
+      {
+        type: "image",
+        src: "/gallery/amd/cn-tower-marker.webp",
+        label: "CN Tower AR Marker",
+        aspect: "square",
+      },
+      {
+        type: "video",
+        src: "/gallery/amd/evo-reel.mp4",
+        poster: "/gallery/amd/evo-reel-poster.webp",
+        label: "Air Max EVO Reel",
+        aspect: "portrait",
+      },
+    ],
     impactRank: 4,
     accent: "#ff6b35",
   },
@@ -193,6 +360,22 @@ const projects: Project[] = [
     deliverables: ["30-second animation", "Social formats", "GIPHY sticker pack", "Loops"],
     media: "/media/2021-rayguns.mp4",
     poster: "/media/2021-rayguns.webp",
+    gallery: [
+      {
+        type: "video",
+        src: "/gallery/rayguns/final-4x5.mp4",
+        poster: "/gallery/rayguns/final-4x5-poster.webp",
+        label: "Campaign Film / 4:5",
+        aspect: "portrait",
+      },
+      {
+        type: "video",
+        src: "/gallery/rayguns/final-9x16.mp4",
+        poster: "/gallery/rayguns/final-9x16-poster.webp",
+        label: "Campaign Film / 9:16",
+        aspect: "portrait",
+      },
+    ],
     impactRank: 5,
     accent: "#2de5ff",
   },
@@ -209,6 +392,33 @@ const projects: Project[] = [
     deliverables: ["20-second CGI film", "Multi-format social stills", "Looping animation"],
     media: "/media/2020-canada.mp4",
     poster: "/media/2020-canada.webp",
+    gallery: [
+      {
+        type: "video",
+        src: "/gallery/canada/launch-film.mp4",
+        poster: "/gallery/canada/launch-film-poster.webp",
+        label: "Canada Soccer Launch Film",
+        aspect: "portrait",
+      },
+      {
+        type: "image",
+        src: "/gallery/canada/jersey-1x1.webp",
+        label: "Jersey Still / 1:1",
+        aspect: "square",
+      },
+      {
+        type: "image",
+        src: "/gallery/canada/jersey-4x5.webp",
+        label: "Jersey Still / 4:5",
+        aspect: "portrait",
+      },
+      {
+        type: "image",
+        src: "/gallery/canada/jersey-horizontal.webp",
+        label: "Jersey Still / Landscape",
+        aspect: "landscape",
+      },
+    ],
     impactRank: 9,
     accent: "#ff233d",
   },
@@ -286,28 +496,84 @@ function ProjectDialog({
         <button className="dialog-close" onClick={onClose} autoFocus aria-label="Close project details">
           CLOSE <span aria-hidden="true">×</span>
         </button>
-        <div className="dialog-index">{String(projects.indexOf(project) + 1).padStart(2, "0")}</div>
-        <p className="eyebrow">
-          {project.year} / {project.region}
-        </p>
-        <h2 id="dialog-title">{project.title}</h2>
-        <p className="dialog-summary">{project.summary}</p>
-        <div className="dialog-meta">
-          <div>
-            <span>ROLE</span>
-            <p>{project.role}</p>
+        <div className="dialog-layout">
+          <div className="dialog-copy">
+            <div className="dialog-index">
+              {String(projects.indexOf(project) + 1).padStart(2, "0")}
+            </div>
+            <p className="eyebrow">
+              {project.year} / {project.region}
+            </p>
+            <h2 id="dialog-title">{project.title}</h2>
+            <p className="dialog-summary">{project.summary}</p>
+            <div className="dialog-meta">
+              <div>
+                <span>ROLE</span>
+                <p>{project.role}</p>
+              </div>
+              <div>
+                <span>STATUS</span>
+                <p>{project.status}</p>
+              </div>
+            </div>
+            <div className="dialog-deliverables">
+              <span>OUTPUT</span>
+              <div>
+                {project.deliverables.map((item) => (
+                  <span key={item}>{item}</span>
+                ))}
+              </div>
+            </div>
+            <p className="dialog-ascii" aria-hidden="true">
+              {`░▒▓ WS_ARCHIVE :: ${project.id.toUpperCase()} :: ${project.year} ▓▒░`}
+            </p>
           </div>
-          <div>
-            <span>STATUS</span>
-            <p>{project.status}</p>
-          </div>
-        </div>
-        <div className="dialog-deliverables">
-          <span>OUTPUT</span>
-          <div>
-            {project.deliverables.map((item) => (
-              <span key={item}>{item}</span>
-            ))}
+
+          <div className="campaign-gallery">
+            <div className="gallery-head">
+              <span>CAMPAIGN MEDIA</span>
+              <b>{String(project.gallery?.length ?? 0).padStart(2, "0")} ASSETS</b>
+            </div>
+            {project.gallery?.length ? (
+              <div className="gallery-grid">
+                {project.gallery.map((item, index) => (
+                  <figure
+                    className={`gallery-item is-${item.aspect}`}
+                    key={`${item.src}-${index}`}
+                  >
+                    <div className="gallery-frame">
+                      {item.type === "video" ? (
+                        <video
+                          src={item.src}
+                          poster={item.poster}
+                          controls
+                          playsInline
+                          preload="metadata"
+                          aria-label={`${project.title} — ${item.label}`}
+                        />
+                      ) : (
+                        <img
+                          src={item.src}
+                          loading="lazy"
+                          alt={`${project.title} — ${item.label}`}
+                        />
+                      )}
+                    </div>
+                    <figcaption>
+                      <span>
+                        {String(index + 1).padStart(2, "0")} / {item.label}
+                      </span>
+                      <span>{item.type}</span>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            ) : (
+              <div className="archive-note">
+                <span aria-hidden="true">[ NO PRODUCTION MEDIA ]</span>
+                Exploratory and proposal work is represented as a system study.
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -583,9 +849,13 @@ export default function Home() {
       <div className="cursor-orb" aria-hidden="true" />
       <canvas ref={canvasRef} className="webgl-stage" aria-hidden="true" />
       <div className="noise" aria-hidden="true" />
+      <div className="ascii-field" aria-hidden="true">
+        <span>░▒▓ WS_SYS / 3D / VFX / AI / 2020—26 ▓▒░</span>
+        <span>010101 :: R&amp;D → IMPLEMENTATION :: 101010</span>
+      </div>
 
       <header className="site-header">
-        <a className="wordmark" href="#top" aria-label="Will Selvis — back to top">
+        <a className="wordmark" href="#top" aria-label="Will Selviz — back to top">
           W/S<span>®</span>
         </a>
         <p>AI CREATIVE TECHNOLOGIST</p>
@@ -611,7 +881,7 @@ export default function Home() {
         </div>
         <div className="hero-lower">
           <p>
-            Will Selvis builds the pipelines between 3D, VFX, AI, and emerging
+            Will Selviz builds the pipelines between 3D, VFX, AI, and emerging
             tools—turning R&amp;D into repeatable production.
           </p>
           <a href="#projects" className="round-link" aria-label="Enter the project timeline">
@@ -624,7 +894,7 @@ export default function Home() {
             <b>9.2</b> GB SOURCE
           </span>
           <span>
-            <b>29</b> FINAL ASSETS
+            <b>27</b> VISUAL ASSETS
           </span>
           <span>
             <b>03</b> REGIONS
@@ -711,10 +981,18 @@ export default function Home() {
                 <h3>{project.title}</h3>
                 <p className="chapter-discipline">{project.discipline}</p>
                 <p className="chapter-summary">{project.summary}</p>
+                <span className="chapter-ascii" aria-hidden="true">
+                  ░▒ {project.id.toUpperCase()} / {project.year} /{" "}
+                  {project.status.toUpperCase()} ▒░
+                </span>
                 <div className="chapter-footer">
                   <span>{project.region}</span>
                   <button onClick={() => setSelected(project)}>
-                    OPEN PROJECT <ArrowIcon />
+                    OPEN PROJECT
+                    {project.gallery?.length ? (
+                      <small>{String(project.gallery.length).padStart(2, "0")} ASSETS</small>
+                    ) : null}
+                    <ArrowIcon />
                   </button>
                 </div>
               </div>
@@ -757,7 +1035,7 @@ export default function Home() {
           WHAT&apos;S NEXT. <ArrowIcon />
         </a>
         <footer>
-          <span>WILL SELVIS © 2026</span>
+          <span>WILL SELVIZ © 2026</span>
           <div>
             <a href="https://www.willselviz.co/" target="_blank" rel="noreferrer">
               PORTFOLIO
