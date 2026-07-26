@@ -932,7 +932,8 @@ button {
   mix-blend-mode: overlay;
 }
 
-.project-media video {
+.project-media video,
+.project-media img {
   width: 100%;
   height: 100%;
   display: block;
@@ -943,7 +944,8 @@ button {
   transition: filter 0.45s, transform 1.1s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.project-media:hover video {
+.project-media:hover video,
+.project-media:hover img {
   filter: saturate(1.08) contrast(1.02);
   transform: scale(1.045);
 }

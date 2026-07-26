@@ -6,11 +6,14 @@ import * as THREE from "three";
 type ProjectStatus = "Confirmed";
 
 type MediaItem = {
+  id?: string;
   type: "video" | "image";
   src: string;
   poster?: string;
   label: string;
   aspect: "portrait" | "landscape" | "square";
+  enabled?: boolean;
+  storageKey?: string;
 };
 
 type Project = {
@@ -25,12 +28,14 @@ type Project = {
   deliverables: string[];
   media?: string;
   poster?: string;
+  coverType?: "video" | "image";
   gallery?: MediaItem[];
   impactRank: number;
   accent: string;
+  enabled?: boolean;
 };
 
-const projects: Project[] = [
+const defaultProjects: Project[] = [
   {
     id: "tec",
     year: "2025",
@@ -412,16 +417,24 @@ function ProjectMedia({ project, onOpen }: { project: Project; onOpen: () => voi
       onClick={onOpen}
       aria-label={`Open ${project.title} campaign portfolio`}
     >
-      <video
-        data-auto-video
-        src={project.media}
-        poster={project.poster}
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        aria-label={`${project.title} project preview`}
-      />
+      {project.coverType === "image" ? (
+        <img
+          src={project.media}
+          loading="lazy"
+          alt={`${project.title} project preview`}
+        />
+      ) : (
+        <video
+          data-auto-video
+          src={project.media}
+          poster={project.poster}
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-label={`${project.title} project preview`}
+        />
+      )}
       <span className="media-label">
         VIEW CAMPAIGN / {String(project.gallery?.length ?? 0).padStart(2, "0")} ASSETS
       </span>
@@ -433,9 +446,11 @@ function ProjectMedia({ project, onOpen }: { project: Project; onOpen: () => voi
 
 function ProjectDialog({
   project,
+  position,
   onClose,
 }: {
   project: Project;
+  position: number;
   onClose: () => void;
 }) {
   useEffect(() => {
@@ -466,7 +481,7 @@ function ProjectDialog({
         <div className="dialog-layout">
           <div className="dialog-copy">
             <div className="dialog-index">
-              {String(projects.indexOf(project) + 1).padStart(2, "0")}
+              {String(position).padStart(2, "0")}
             </div>
             <p className="eyebrow">
               {project.year} / {project.region}
@@ -551,24 +566,47 @@ function ProjectDialog({
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const activeProjectRef = useRef(0);
+  const [projects, setProjects] = useState<Project[]>(defaultProjects);
   const [sortMode, setSortMode] = useState<"latest" | "impact">("latest");
-  const [activeId, setActiveId] = useState("tec");
+  const [activeId, setActiveId] = useState(defaultProjects[0].id);
   const [selected, setSelected] = useState<Project | null>(null);
   const [introComplete, setIntroComplete] = useState(false);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    void fetch("/api/portfolio", {
+      cache: "no-store",
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("Portfolio settings are unavailable.");
+        return response.json() as Promise<{ manifest?: { projects?: Project[] } }>;
+      })
+      .then((payload) => {
+        const next = payload.manifest?.projects;
+        if (!next?.length) return;
+        setProjects(next);
+        setActiveId(next[0].id);
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+      });
+    return () => controller.abort();
+  }, []);
 
   const orderedProjects = useMemo(() => {
     if (sortMode === "impact") {
       return [...projects].sort((a, b) => a.impactRank - b.impactRank);
     }
     return projects;
-  }, [sortMode]);
+  }, [projects, sortMode]);
 
   useEffect(() => {
     activeProjectRef.current = Math.max(
       0,
       projects.findIndex((project) => project.id === activeId),
     );
-  }, [activeId]);
+  }, [activeId, projects]);
 
   useEffect(() => {
     const timeout = window.setTimeout(() => setIntroComplete(true), 1100);
@@ -583,7 +621,7 @@ export default function Home() {
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
         if (visible) {
-          setActiveId((visible.target as HTMLElement).dataset.projectId ?? projects[0].id);
+          setActiveId((visible.target as HTMLElement).dataset.projectId ?? projects[0]?.id ?? "");
         }
       },
       { rootMargin: "-25% 0px -38% 0px", threshold: [0.15, 0.35, 0.6] },
@@ -806,11 +844,15 @@ export default function Home() {
       (dust.material as THREE.Material).dispose();
       renderer.dispose();
     };
-  }, []);
+  }, [projects]);
 
   const changeSort = (mode: "latest" | "impact") => {
     setSortMode(mode);
-    setActiveId(mode === "latest" ? projects[0].id : projects.find((p) => p.impactRank === 1)!.id);
+    const next =
+      mode === "latest"
+        ? projects[0]
+        : [...projects].sort((a, b) => a.impactRank - b.impactRank)[0];
+    if (next) setActiveId(next.id);
   };
 
   return (
@@ -834,6 +876,7 @@ export default function Home() {
         <nav aria-label="Primary navigation">
           <a href="#projects">Projects</a>
           <a href="#origin">Origin</a>
+          <a href="/studio">Studio</a>
           <a href="mailto:selviz@rendrd.com">Contact</a>
         </nav>
       </header>
@@ -844,7 +887,9 @@ export default function Home() {
           <span>2020—2025</span>
         </div>
         <div className="hero-title-wrap">
-          <p className="hero-number">09 / CONFIRMED</p>
+          <p className="hero-number">
+            {String(projects.length).padStart(2, "0")} / CONFIRMED
+          </p>
           <h1>
             THE WORK
             <br />
@@ -1110,7 +1155,13 @@ export default function Home() {
         </footer>
       </section>
 
-      {selected ? <ProjectDialog project={selected} onClose={() => setSelected(null)} /> : null}
+      {selected ? (
+        <ProjectDialog
+          project={selected}
+          position={Math.max(1, projects.findIndex((project) => project.id === selected.id) + 1)}
+          onClose={() => setSelected(null)}
+        />
+      ) : null}
     </main>
   );
 }
