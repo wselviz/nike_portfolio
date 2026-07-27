@@ -251,6 +251,68 @@ button {
   letter-spacing: 0.16em;
 }
 
+.hero-model-readout {
+  position: absolute;
+  z-index: 3;
+  top: 17%;
+  right: 4.5%;
+  width: min(270px, 25vw);
+  padding: 0.9rem 1rem;
+  border-top: 1px solid rgba(215, 255, 52, 0.5);
+  border-bottom: 1px solid rgba(243, 241, 233, 0.16);
+  background: linear-gradient(90deg, rgba(8, 8, 8, 0.72), rgba(8, 8, 8, 0.1));
+  font-family: var(--font-mono);
+  text-align: right;
+  pointer-events: none;
+  opacity: 0.5;
+  transform: translateY(0.65rem);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  backdrop-filter: blur(6px);
+}
+
+.hero-model-readout.is-ready {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-model-readout span,
+.hero-model-readout strong,
+.hero-model-readout small {
+  display: block;
+}
+
+.hero-model-readout span {
+  color: var(--volt);
+  font-size: 0.58rem;
+  letter-spacing: 0.13em;
+}
+
+.hero-model-readout span i {
+  width: 5px;
+  height: 5px;
+  display: inline-block;
+  margin-right: 0.45rem;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 14px currentColor;
+}
+
+.hero-model-readout strong {
+  margin-top: 0.55rem;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: -0.035em;
+}
+
+.hero-model-readout small {
+  margin-top: 0.3rem;
+  color: var(--muted);
+  font-size: 0.5rem;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+}
+
 .hero-title-wrap {
   width: 100%;
   margin-top: auto;
@@ -2228,6 +2290,12 @@ button {
     font-size: clamp(4.7rem, 15vw, 9.2rem);
   }
 
+  .hero-model-readout {
+    top: 15%;
+    right: 3vw;
+    width: min(240px, 32vw);
+  }
+
   .role-fit {
     min-height: auto;
     padding: 9rem 5vw;
@@ -2342,6 +2410,21 @@ button {
 
   .hero-kicker {
     font-size: var(--type-small);
+  }
+
+  .hero-model-readout {
+    top: 7.4rem;
+    right: 1.1rem;
+    width: min(200px, 55vw);
+    padding: 0.7rem 0.8rem;
+  }
+
+  .hero-model-readout strong {
+    font-size: 0.9rem;
+  }
+
+  .hero-model-readout small {
+    display: none;
   }
 
   .hero h1 {

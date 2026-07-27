@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
+import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 
 type ProjectStatus = "Confirmed";
 
@@ -671,6 +672,7 @@ export default function Home() {
   const [activeId, setActiveId] = useState(defaultProjects[0].id);
   const [selected, setSelected] = useState<Project | null>(null);
   const [introComplete, setIntroComplete] = useState(false);
+  const [shoeModelReady, setShoeModelReady] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -777,6 +779,8 @@ export default function Home() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.6));
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.08;
 
     const scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0x060606, 0.045);
@@ -790,6 +794,100 @@ export default function Home() {
 
     const world = new THREE.Group();
     scene.add(world);
+
+    let shoePresentation: THREE.Group | null = null;
+    let shoeMaterial: THREE.MeshPhysicalMaterial | null = null;
+    let albedoTexture: THREE.Texture | null = null;
+    let normalTexture: THREE.Texture | null = null;
+    let shoeLoadCancelled = false;
+
+    const layoutShoe = () => {
+      if (!shoePresentation) return;
+      const isMobile = window.innerWidth < 720;
+      const isTablet = window.innerWidth < 1100;
+      const scale = isMobile ? 0.11 : isTablet ? 0.19 : 0.255;
+      const x = isMobile ? 0.52 : isTablet ? 1.6 : 2.35;
+      const y = isMobile ? 1.05 : isTablet ? 0.72 : 0.52;
+      const z = isMobile ? 1.9 : 1.45;
+      shoePresentation.scale.setScalar(scale);
+      shoePresentation.position.set(x, y, z);
+      shoePresentation.userData.baseY = y;
+    };
+
+    const disposeFbx = (root: THREE.Object3D) => {
+      root.traverse((object) => {
+        const mesh = object as THREE.Mesh;
+        mesh.geometry?.dispose();
+        if (Array.isArray(mesh.material)) {
+          mesh.material.forEach((material) => material.dispose());
+        } else {
+          mesh.material?.dispose();
+        }
+      });
+    };
+
+    const textureLoader = new THREE.TextureLoader();
+    const fbxLoader = new FBXLoader();
+    void Promise.all([
+      fbxLoader.loadAsync("/models/evo-ar/evo-ar.fbx"),
+      textureLoader.loadAsync("/models/evo-ar/evo-albedo.jpg"),
+      textureLoader.loadAsync("/models/evo-ar/evo-normal.jpg"),
+    ])
+      .then(([fbx, albedo, normal]) => {
+        if (shoeLoadCancelled) {
+          disposeFbx(fbx);
+          albedo.dispose();
+          normal.dispose();
+          return;
+        }
+
+        albedoTexture = albedo;
+        normalTexture = normal;
+        albedo.colorSpace = THREE.SRGBColorSpace;
+        normal.colorSpace = THREE.NoColorSpace;
+        const anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+        albedo.anisotropy = anisotropy;
+        normal.anisotropy = anisotropy;
+
+        shoeMaterial = new THREE.MeshPhysicalMaterial({
+          map: albedo,
+          normalMap: normal,
+          normalMapType: THREE.TangentSpaceNormalMap,
+          normalScale: new THREE.Vector2(0.72, 0.72),
+          color: 0xffffff,
+          roughness: 0.58,
+          metalness: 0.02,
+          clearcoat: 0.16,
+          clearcoatRoughness: 0.72,
+          transparent: true,
+        });
+
+        fbx.traverse((object) => {
+          const mesh = object as THREE.Mesh;
+          if (!mesh.isMesh) return;
+          const previousMaterials = Array.isArray(mesh.material)
+            ? mesh.material
+            : [mesh.material];
+          previousMaterials.forEach((material) => material?.dispose());
+          mesh.material = shoeMaterial as THREE.MeshPhysicalMaterial;
+          mesh.frustumCulled = false;
+        });
+
+        const bounds = new THREE.Box3().setFromObject(fbx);
+        const center = bounds.getCenter(new THREE.Vector3());
+        fbx.position.sub(center);
+        fbx.rotation.y = Math.PI / 2;
+
+        shoePresentation = new THREE.Group();
+        shoePresentation.name = "EVO_AR_HERO";
+        shoePresentation.add(fbx);
+        scene.add(shoePresentation);
+        layoutShoe();
+        setShoeModelReady(true);
+      })
+      .catch(() => {
+        if (!shoeLoadCancelled) setShoeModelReady(false);
+      });
 
     const points = projects.map((_, index) => {
       const angle = index * 1.08 - 0.5;
@@ -878,6 +976,17 @@ export default function Home() {
     world.add(sculpt);
 
     scene.add(new THREE.AmbientLight(0xffffff, 0.38));
+    const modelSkyLight = new THREE.HemisphereLight(0xdde9ff, 0x17120f, 1.15);
+    scene.add(modelSkyLight);
+    const modelKeyLight = new THREE.DirectionalLight(0xfff5e7, 4.2);
+    modelKeyLight.position.set(5.5, 7, 7);
+    scene.add(modelKeyLight);
+    const modelFillLight = new THREE.DirectionalLight(0x9cbcff, 1.8);
+    modelFillLight.position.set(-4, 1.5, 5);
+    scene.add(modelFillLight);
+    const modelEdgeLight = new THREE.PointLight(0xd7ff34, 17, 18, 1.8);
+    modelEdgeLight.position.set(-3.5, 3.5, 2.5);
+    scene.add(modelEdgeLight);
     const keyLight = new THREE.PointLight(0xd7ff34, 16, 22);
     keyLight.position.set(3.5, 4, 6);
     scene.add(keyLight);
@@ -895,6 +1004,7 @@ export default function Home() {
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.6));
+      layoutShoe();
     };
     window.addEventListener("pointermove", onPointerMove, { passive: true });
     window.addEventListener("resize", onResize);
@@ -914,6 +1024,27 @@ export default function Home() {
       sculpt.rotation.y = time * 0.11;
       dust.rotation.y = time * 0.009;
 
+      if (shoePresentation && shoeMaterial) {
+        const heroProgress = window.scrollY / Math.max(1, window.innerHeight);
+        const fade = 1 - THREE.MathUtils.smoothstep(heroProgress, 0.48, 1.02);
+        shoeMaterial.opacity = fade;
+        shoePresentation.visible = fade > 0.01;
+        const baseY = Number(shoePresentation.userData.baseY ?? 0.52);
+        const floatOffset = reduceMotion ? 0 : Math.sin(time * 0.72) * 0.075;
+        shoePresentation.position.y = baseY + floatOffset - heroProgress * 0.34;
+        shoePresentation.rotation.x +=
+          ((reduceMotion ? 0.035 : pointer.y * 0.075 + 0.035) -
+            shoePresentation.rotation.x) *
+          0.035;
+        shoePresentation.rotation.y +=
+          ((reduceMotion ? 0 : pointer.x * 0.17) - shoePresentation.rotation.y) *
+          0.035;
+        shoePresentation.rotation.z +=
+          ((reduceMotion ? -0.055 : pointer.x * -0.045 - 0.055) -
+            shoePresentation.rotation.z) *
+          0.035;
+      }
+
       nodes.forEach((node, index) => {
         const active = index === activeProjectRef.current;
         const pulse = active && !reduceMotion ? 1 + Math.sin(time * 4) * 0.12 : 1;
@@ -931,6 +1062,7 @@ export default function Home() {
     render();
 
     return () => {
+      shoeLoadCancelled = true;
       window.cancelAnimationFrame(frame);
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("resize", onResize);
@@ -942,6 +1074,12 @@ export default function Home() {
       (route.material as THREE.Material).dispose();
       (sculpt.material as THREE.Material).dispose();
       (dust.material as THREE.Material).dispose();
+      if (shoePresentation) {
+        scene.remove(shoePresentation);
+        disposeFbx(shoePresentation);
+      }
+      albedoTexture?.dispose();
+      normalTexture?.dispose();
       renderer.dispose();
     };
   }, [projects]);
@@ -984,6 +1122,14 @@ export default function Home() {
         <div className="hero-kicker">
           <span>NIKE PROJECT UNIVERSE</span>
           <span>2020-2025</span>
+        </div>
+        <div className={`hero-model-readout ${shoeModelReady ? "is-ready" : ""}`}>
+          <span>
+            <i aria-hidden="true" />
+            {shoeModelReady ? "LIVE 3D OBJECT" : "LOADING 3D OBJECT"}
+          </span>
+          <strong>EVO / AIR MAX DAY</strong>
+          <small>MOVE CURSOR TO INSPECT / ALBEDO + NORMAL SCAN</small>
         </div>
         <div className="hero-title-wrap">
           <p className="hero-number">
