@@ -50,7 +50,11 @@ const publicManifest = {
   updatedBy: "owner-preview-snapshot",
 };
 
-await writeFile(outputPath, `${JSON.stringify(publicManifest, null, 2)}\n`, "utf8");
+await writeFile(
+  outputPath,
+  `${JSON.stringify({ manifest: publicManifest }, null, 2)}\n`,
+  "utf8",
+);
 
 const assetCount = publishedProjects.reduce(
   (total, project) => total + project.gallery.length,

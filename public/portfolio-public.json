@@ -1,533 +1,535 @@
 {
-  "version": 4,
-  "projects": [
-    {
-      "id": "tec",
-      "year": "2025",
-      "title": "Toronto Eaton Centre",
-      "region": "Toronto, Canada",
-      "status": "Confirmed",
-      "discipline": "CGI / 3D / VFX / social",
-      "summary": "A fast-turnaround visual system for the store-opening activation, moving from pre-rollout CGI into social, installation, and Nike By You content.",
-      "role": "CGI, 3D, VFX, workflow development",
-      "deliverables": [
-        "Pre-rollout CGI",
-        "Social reels",
-        "3D athlete options",
-        "Installation content",
-        "Nike By You assets"
-      ],
-      "media": "/media/2025-tec.mp4",
-      "poster": "/media/2025-tec.webp",
-      "gallery": [
-        {
-          "type": "video",
-          "src": "/gallery/tec/nike-by-you.mp4",
-          "poster": "/gallery/tec/nike-by-you-poster.webp",
-          "label": "Nike By You",
-          "aspect": "portrait",
-          "id": "tec-2",
-          "enabled": true
-        },
-        {
-          "type": "video",
-          "src": "/gallery/tec/nike-playground.mp4",
-          "poster": "/gallery/tec/nike-playground-poster.webp",
-          "label": "Nike Playground",
-          "aspect": "portrait",
-          "id": "tec-3",
-          "enabled": true
-        }
-      ],
-      "impactRank": 2,
-      "accent": "#ff4d25",
-      "enabled": true,
-      "coverType": "video"
-    },
-    {
-      "id": "bata",
-      "year": "2025",
-      "title": "Air Max 95 × Bata",
-      "region": "Toronto, Canada",
-      "status": "Confirmed",
-      "discipline": "CGI / social / museum",
-      "summary": "A cinematic CGI and social package supporting the Air Max 95’s induction into the Bata Shoe Museum.",
-      "role": "CGI production, motion design, social delivery",
-      "deliverables": [
-        "Main reel",
-        "Teaser films",
-        "9:16 imagery",
-        "Photography support"
-      ],
-      "media": "/media/2025-bata.mp4",
-      "poster": "/media/2025-bata.webp",
-      "gallery": [
-        {
-          "type": "video",
-          "src": "/gallery/bata/main-reel.mp4",
-          "poster": "/gallery/bata/main-reel-poster.webp",
-          "label": "Main Museum Reel",
-          "aspect": "portrait",
-          "id": "bata-1",
-          "enabled": true
-        },
-        {
-          "type": "image",
-          "src": "/owner-media/media/5c4d88ad-5594-4820-b8a6-fded3956f463-BSM_3---9x16.webp",
-          "label": "BSM 3 / 9x16",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "bata-owner-2"
-        },
-        {
-          "type": "image",
-          "src": "/owner-media/media/db83b021-e96b-4228-8b6a-8468069a0728-BSM_1---9x16.webp",
-          "label": "BSM 1 / 9x16",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "bata-owner-3"
-        },
-        {
-          "type": "image",
-          "src": "/owner-media/media/a38eb7d5-bfd9-45bb-a128-58b6b099df79-BSM_2---9x16.webp",
-          "label": "BSM 2 / 9x16",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "bata-owner-4"
-        }
-      ],
-      "impactRank": 3,
-      "accent": "#d7ff34",
-      "enabled": true,
-      "coverType": "video"
-    },
-    {
-      "id": "am95",
-      "year": "2024",
-      "title": "Toronto Air Max 95",
-      "region": "Toronto, Canada",
-      "status": "Confirmed",
-      "discipline": "CGI / DOOH / FOOH / AR",
-      "summary": "A multi-round campaign spanning digital out-of-home, social carousel, fake-out-of-home, and an Instagram AR workstream.",
-      "role": "CGI direction, production pipeline, visual effects",
-      "deliverables": [
-        "CGI concept rounds",
-        "DOOH",
-        "Social carousel",
-        "FOOH assets",
-        "Instagram AR"
-      ],
-      "media": "/media/2024-am95.mp4",
-      "poster": "/media/2024-am95.webp",
-      "gallery": [
-        {
-          "type": "video",
-          "src": "/gallery/am95/billboard.mp4",
-          "poster": "/gallery/am95/billboard-poster.webp",
-          "label": "DOOH Billboard",
-          "aspect": "landscape",
-          "id": "am95-1",
-          "enabled": true
-        },
-        {
-          "type": "image",
-          "src": "/gallery/am95/cne-render.webp",
-          "label": "CNE Campaign Render",
-          "aspect": "portrait",
-          "id": "am95-2",
-          "enabled": true
-        },
-        {
-          "type": "video",
-          "src": "/gallery/am95/revised-master.mp4",
-          "poster": "/gallery/am95/revised-master-poster.webp",
-          "label": "Campaign Master",
-          "aspect": "portrait",
-          "id": "am95-3",
-          "enabled": true
-        },
-        {
-          "type": "video",
-          "src": "/gallery/am95/kensington-4x5.mp4",
-          "poster": "/gallery/am95/kensington-4x5-poster.webp",
-          "label": "Kensington / 4:5",
-          "aspect": "portrait",
-          "id": "am95-4",
-          "enabled": true
-        },
-        {
-          "type": "video",
-          "src": "/owner-media/media/d855a734-5788-4bd5-82aa-9e7756d964b8-e0d75e2af65641708d3753af631612b6.mov",
-          "label": "AM95 Motion Test",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "am95-owner-5"
-        },
-        {
-          "type": "image",
-          "src": "/owner-media/media/757f434c-2734-45ed-b224-52dccab7b31f-Nike_Toronto_AM95.webp",
-          "label": "Nike Toronto AM95",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "am95-owner-6"
-        },
-        {
-          "type": "image",
-          "src": "/owner-media/media/7fa5010c-430d-46d0-93ba-c836bd241c22-WSE_2593_000002_00000_00000.webp",
-          "label": "Campaign Still",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "am95-owner-7"
-        },
-        {
-          "type": "video",
-          "src": "/owner-media/media/6eeda85d-b427-45a1-baee-da27b7d75e48-AGO.mp4",
-          "label": "AGO",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "am95-owner-8"
-        },
-        {
-          "type": "image",
-          "src": "/owner-media/media/2adbf996-5e71-4ffa-b61a-b8ce8ccc3a03-SCARB_SURREAL.webp",
-          "label": "SCARB SURREAL",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "am95-owner-9"
-        },
-        {
-          "type": "video",
-          "src": "/owner-media/media/0aa55ae9-4a82-4417-9229-f5d04ab11128-IMG_0560.mov",
-          "label": "IMG 0560",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "am95-owner-10"
-        }
-      ],
-      "impactRank": 1,
-      "accent": "#fd4aa1",
-      "enabled": true,
-      "coverType": "video"
-    },
-    {
-      "id": "amd",
-      "year": "2022",
-      "title": "Air Max Day Worldwide",
-      "region": "Toronto, Canada",
-      "status": "Confirmed",
-      "discipline": "Global campaign / 3D / live experience",
-      "summary": "Selected to represent Canada in Nike's global Air Max Day campaign, Bring the Future to Light, combining a featured artist story, 3D motion, a live broadcast, and a boundary-pushing local panel.",
-      "role": "Canada campaign representative, featured artist, 3D animation, panel curation, co-production",
-      "deliverables": [
-        "Bring the Future to Light",
-        "Global campaign feature",
-        "3D animation",
-        "EVO reel",
-        "AR frames",
-        "Livestream motion system",
-        "Panel curation"
-      ],
-      "media": "/media/2021-amd.mp4",
-      "poster": "/media/2021-amd.webp",
-      "gallery": [
-        {
-          "type": "video",
-          "src": "/owner-media/media/72a2ca49-3179-47fb-b279-7f7bb2ee0523-nike_1.mp4",
-          "label": "Nike 1 / Campaign Recap",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "amd-owner-1"
-        },
-        {
-          "type": "image",
-          "src": "/gallery/amd/cn-tower-marker.webp",
-          "label": "CN Tower AR Marker",
-          "aspect": "square",
-          "id": "amd-2",
-          "enabled": true
-        },
-        {
-          "type": "video",
-          "src": "/gallery/amd/evo-reel.mp4",
-          "poster": "/gallery/amd/evo-reel-poster.webp",
-          "label": "Air Max EVO Reel",
-          "aspect": "portrait",
-          "id": "amd-3",
-          "enabled": true
-        },
-        {
-          "type": "image",
-          "src": "/owner-media/media/9e3c4675-aa7e-492d-a666-2064545454d6-SP21_NSW_Air_NA_Will_AM97_0212.webp",
-          "label": "Air Max 97 Portrait / 0212",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "amd-owner-4"
-        },
-        {
-          "type": "image",
-          "src": "/owner-media/media/cb6ea0ff-d47f-47a0-b72e-6b3aa4028cc0-Billboard.webp",
-          "label": "Billboard",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "amd-owner-5"
-        },
-        {
-          "type": "video",
-          "src": "/owner-media/media/a8f18f78-d96c-40e7-86df-098341b1093c-CNTower_Outro.mp4",
-          "label": "CN Tower Outro",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "amd-owner-6"
-        },
-        {
-          "type": "video",
-          "src": "/owner-media/media/d9f97588-d1d9-4085-9c79-d218869598d4-CNTower_Intro.mp4",
-          "label": "CN Tower Intro",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "amd-owner-7"
-        },
-        {
-          "type": "video",
-          "src": "/owner-media/media/72796c5a-1b14-4c55-8a74-f2edda027ab8-Conveyor_Loop_1.mp4",
-          "label": "Conveyor Loop / 01",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "amd-owner-8"
-        },
-        {
-          "type": "video",
-          "src": "/owner-media/media/9fc27f99-e78d-4912-9f33-7feea40a7876-AMDWW_Background.mp4",
-          "label": "AMD Worldwide Background",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "amd-owner-9"
-        },
-        {
-          "type": "video",
-          "src": "/owner-media/media/7c7a4632-187f-4f16-9edb-36e63b7dc7bc-CNTower_Outro_1.mp4",
-          "label": "CN Tower Outro / 01",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "amd-owner-10"
-        },
-        {
-          "type": "image",
-          "src": "/owner-media/media/98652f09-e9c0-40d2-b491-39fe8dd9b9d4-SP21_NSW_Air_NA_Will_vapormaxEVO_0719.webp",
-          "label": "Vapormax EVO Portrait / 0719",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "amd-owner-11"
-        },
-        {
-          "type": "image",
-          "src": "/owner-media/media/bbe0565e-2314-4e36-9e85-bfff780a34cb-SP21_NSW_Air_NA_Will_AM97_0098.webp",
-          "label": "Air Max 97 Portrait / 0098",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "amd-owner-12"
-        }
-      ],
-      "impactRank": 4,
-      "accent": "#ff6b35",
-      "enabled": true,
-      "coverType": "video"
-    },
-    {
-      "id": "dubai",
-      "year": "2021",
-      "title": "Cactus Jack × Fragment",
-      "region": "Dubai, UAE",
-      "status": "Confirmed",
-      "discipline": "Regional launch / motion",
-      "summary": "Regional launch content for the Travis Scott, Cactus Jack, and Fragment release, delivered in branded and no-logo placements.",
-      "role": "3D animation, motion design, delivery systems",
-      "deliverables": [
-        "Branded social film",
-        "No-logo placement",
-        "Regional launch assets"
-      ],
-      "media": "/media/2021-dubai.mp4",
-      "poster": "/media/2021-dubai.webp",
-      "gallery": [
-        {
-          "type": "video",
-          "src": "/gallery/dubai/logo-version.mp4",
-          "poster": "/gallery/dubai/logo-version-poster.webp",
-          "label": "Regional Launch / Branded",
-          "aspect": "portrait",
-          "id": "dubai-1",
-          "enabled": true
-        }
-      ],
-      "impactRank": 7,
-      "accent": "#58a5ff",
-      "enabled": true,
-      "coverType": "video"
-    },
-    {
-      "id": "kuwait",
-      "year": "2021",
-      "title": "Air Max Day Kuwait",
-      "region": "Kuwait",
-      "status": "Confirmed",
-      "discipline": "Motion / conveyor system",
-      "summary": "Air Max Day motion content built around a finished campaign film and a high-resolution conveyor-loop sequence.",
-      "role": "3D animation, motion systems, final delivery",
-      "deliverables": [
-        "Campaign film",
-        "Conveyor loop",
-        "High-resolution frame sequence"
-      ],
-      "media": "/media/2021-kuwait.mp4",
-      "poster": "/media/2021-kuwait.webp",
-      "gallery": [
-        {
-          "type": "video",
-          "src": "/gallery/kuwait/campaign-film.mp4",
-          "poster": "/gallery/kuwait/campaign-film-poster.webp",
-          "label": "Air Max Day Campaign Film",
-          "aspect": "portrait",
-          "id": "kuwait-1",
-          "enabled": true
-        },
-        {
-          "type": "image",
-          "src": "/gallery/kuwait/conveyor-frame.webp",
-          "label": "Conveyor Sequence Frame",
-          "aspect": "landscape",
-          "id": "kuwait-2",
-          "enabled": true
-        }
-      ],
-      "impactRank": 6,
-      "accent": "#c6a7ff",
-      "enabled": true,
-      "coverType": "video"
-    },
-    {
-      "id": "ofsaa",
-      "year": "2021",
-      "title": "OFSAA Nike XC AR",
-      "region": "Ontario, Canada",
-      "status": "Confirmed",
-      "discipline": "Instagram AR / Snapchat",
-      "summary": "A matched pair of social AR experiences for Instagram and Snapchat, supported by motion assets and a GIPHY system.",
-      "role": "AR development, motion design, cross-platform delivery",
-      "deliverables": [
-        "Spark AR experience",
-        "Lens Studio experience",
-        "GIF system",
-        "GIPHY assets"
-      ],
-      "media": "/media/2021-ofsaa.mp4",
-      "poster": "/media/2021-ofsaa.webp",
-      "gallery": [
-        {
-          "type": "video",
-          "src": "/gallery/ofsaa/finish-on-empty.mp4",
-          "poster": "/gallery/ofsaa/finish-on-empty-poster.webp",
-          "label": "Finish On Empty / GIPHY",
-          "aspect": "square",
-          "id": "ofsaa-1",
-          "enabled": true
-        },
-        {
-          "type": "video",
-          "src": "/owner-media/media/9f706391-63ea-46a3-8e8e-831b9afccdb6-Video-2021-10-29-11-54-47-AM.mp4",
-          "label": "Field Test / 11:54",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "ofsaa-owner-2"
-        },
-        {
-          "type": "video",
-          "src": "/owner-media/media/ee6c18d0-0d84-4ba6-9121-b5cd415a60aa-Video-2021-10-29-11-56-49-AM.mp4",
-          "label": "Field Test / 11:56",
-          "aspect": "portrait",
-          "enabled": true,
-          "id": "ofsaa-owner-3"
-        }
-      ],
-      "impactRank": 8,
-      "accent": "#ffffff",
-      "enabled": true,
-      "coverType": "video"
-    },
-    {
-      "id": "rayguns",
-      "year": "2021",
-      "title": "Roswell Rayguns",
-      "region": "Canada",
-      "status": "Confirmed",
-      "discipline": "Animation / social / GIPHY",
-      "summary": "An animated campaign system for the Roswell Rayguns, built for social formats and extended through a branded sticker world.",
-      "role": "3D animation, motion design, campaign toolkit",
-      "deliverables": [
-        "30-second animation",
-        "Social formats",
-        "GIPHY sticker pack",
-        "Loops"
-      ],
-      "media": "/media/2021-rayguns.mp4",
-      "poster": "/media/2021-rayguns.webp",
-      "gallery": [
-        {
-          "type": "video",
-          "src": "/gallery/rayguns/final-4x5.mp4",
-          "poster": "/gallery/rayguns/final-4x5-poster.webp",
-          "label": "Campaign Film / 4:5",
-          "aspect": "portrait",
-          "id": "rayguns-1",
-          "enabled": true
-        }
-      ],
-      "impactRank": 5,
-      "accent": "#2de5ff",
-      "enabled": true,
-      "coverType": "video"
-    },
-    {
-      "id": "canada",
-      "year": "2020",
-      "title": "Canada Soccer Jersey",
-      "region": "Toronto, Canada",
-      "status": "Confirmed",
-      "discipline": "CGI launch / social",
-      "summary": "The first Nike chapter: a CGI-led launch centered on the Canada Soccer jersey, the Swoosh, maple leaf, and #20 CANADA details.",
-      "role": "Creative direction, CGI animation, production",
-      "deliverables": [
-        "20-second CGI film",
-        "Multi-format social stills",
-        "Looping animation"
-      ],
-      "media": "/media/2020-canada.mp4",
-      "poster": "/media/2020-canada.webp",
-      "gallery": [
-        {
-          "type": "video",
-          "src": "/gallery/canada/launch-film.mp4",
-          "poster": "/gallery/canada/launch-film-poster.webp",
-          "label": "Canada Soccer Launch Film",
-          "aspect": "portrait",
-          "id": "canada-1",
-          "enabled": true
-        },
-        {
-          "type": "image",
-          "src": "/gallery/canada/jersey-horizontal.webp",
-          "label": "Jersey Still / Landscape",
-          "aspect": "landscape",
-          "id": "canada-4",
-          "enabled": true
-        }
-      ],
-      "impactRank": 9,
-      "accent": "#ff233d",
-      "enabled": true,
-      "coverType": "video"
-    }
-  ],
-  "updatedAt": "2026-07-27T03:09:53.508Z",
-  "updatedBy": "owner-preview-snapshot"
+  "manifest": {
+    "version": 4,
+    "projects": [
+      {
+        "id": "tec",
+        "year": "2025",
+        "title": "Toronto Eaton Centre",
+        "region": "Toronto, Canada",
+        "status": "Confirmed",
+        "discipline": "CGI / 3D / VFX / social",
+        "summary": "A fast-turnaround visual system for the store-opening activation, moving from pre-rollout CGI into social, installation, and Nike By You content.",
+        "role": "CGI, 3D, VFX, workflow development",
+        "deliverables": [
+          "Pre-rollout CGI",
+          "Social reels",
+          "3D athlete options",
+          "Installation content",
+          "Nike By You assets"
+        ],
+        "media": "/media/2025-tec.mp4",
+        "poster": "/media/2025-tec.webp",
+        "gallery": [
+          {
+            "type": "video",
+            "src": "/gallery/tec/nike-by-you.mp4",
+            "poster": "/gallery/tec/nike-by-you-poster.webp",
+            "label": "Nike By You",
+            "aspect": "portrait",
+            "id": "tec-2",
+            "enabled": true
+          },
+          {
+            "type": "video",
+            "src": "/gallery/tec/nike-playground.mp4",
+            "poster": "/gallery/tec/nike-playground-poster.webp",
+            "label": "Nike Playground",
+            "aspect": "portrait",
+            "id": "tec-3",
+            "enabled": true
+          }
+        ],
+        "impactRank": 2,
+        "accent": "#ff4d25",
+        "enabled": true,
+        "coverType": "video"
+      },
+      {
+        "id": "bata",
+        "year": "2025",
+        "title": "Air Max 95 × Bata",
+        "region": "Toronto, Canada",
+        "status": "Confirmed",
+        "discipline": "CGI / social / museum",
+        "summary": "A cinematic CGI and social package supporting the Air Max 95’s induction into the Bata Shoe Museum.",
+        "role": "CGI production, motion design, social delivery",
+        "deliverables": [
+          "Main reel",
+          "Teaser films",
+          "9:16 imagery",
+          "Photography support"
+        ],
+        "media": "/media/2025-bata.mp4",
+        "poster": "/media/2025-bata.webp",
+        "gallery": [
+          {
+            "type": "video",
+            "src": "/gallery/bata/main-reel.mp4",
+            "poster": "/gallery/bata/main-reel-poster.webp",
+            "label": "Main Museum Reel",
+            "aspect": "portrait",
+            "id": "bata-1",
+            "enabled": true
+          },
+          {
+            "type": "image",
+            "src": "/owner-media/media/5c4d88ad-5594-4820-b8a6-fded3956f463-BSM_3---9x16.webp",
+            "label": "BSM 3 / 9x16",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "bata-owner-2"
+          },
+          {
+            "type": "image",
+            "src": "/owner-media/media/db83b021-e96b-4228-8b6a-8468069a0728-BSM_1---9x16.webp",
+            "label": "BSM 1 / 9x16",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "bata-owner-3"
+          },
+          {
+            "type": "image",
+            "src": "/owner-media/media/a38eb7d5-bfd9-45bb-a128-58b6b099df79-BSM_2---9x16.webp",
+            "label": "BSM 2 / 9x16",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "bata-owner-4"
+          }
+        ],
+        "impactRank": 3,
+        "accent": "#d7ff34",
+        "enabled": true,
+        "coverType": "video"
+      },
+      {
+        "id": "am95",
+        "year": "2024",
+        "title": "Toronto Air Max 95",
+        "region": "Toronto, Canada",
+        "status": "Confirmed",
+        "discipline": "CGI / DOOH / FOOH / AR",
+        "summary": "A multi-round campaign spanning digital out-of-home, social carousel, fake-out-of-home, and an Instagram AR workstream.",
+        "role": "CGI direction, production pipeline, visual effects",
+        "deliverables": [
+          "CGI concept rounds",
+          "DOOH",
+          "Social carousel",
+          "FOOH assets",
+          "Instagram AR"
+        ],
+        "media": "/media/2024-am95.mp4",
+        "poster": "/media/2024-am95.webp",
+        "gallery": [
+          {
+            "type": "video",
+            "src": "/gallery/am95/billboard.mp4",
+            "poster": "/gallery/am95/billboard-poster.webp",
+            "label": "DOOH Billboard",
+            "aspect": "landscape",
+            "id": "am95-1",
+            "enabled": true
+          },
+          {
+            "type": "image",
+            "src": "/gallery/am95/cne-render.webp",
+            "label": "CNE Campaign Render",
+            "aspect": "portrait",
+            "id": "am95-2",
+            "enabled": true
+          },
+          {
+            "type": "video",
+            "src": "/gallery/am95/revised-master.mp4",
+            "poster": "/gallery/am95/revised-master-poster.webp",
+            "label": "Campaign Master",
+            "aspect": "portrait",
+            "id": "am95-3",
+            "enabled": true
+          },
+          {
+            "type": "video",
+            "src": "/gallery/am95/kensington-4x5.mp4",
+            "poster": "/gallery/am95/kensington-4x5-poster.webp",
+            "label": "Kensington / 4:5",
+            "aspect": "portrait",
+            "id": "am95-4",
+            "enabled": true
+          },
+          {
+            "type": "video",
+            "src": "/owner-media/media/d855a734-5788-4bd5-82aa-9e7756d964b8-e0d75e2af65641708d3753af631612b6.mov",
+            "label": "AM95 Motion Test",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "am95-owner-5"
+          },
+          {
+            "type": "image",
+            "src": "/owner-media/media/757f434c-2734-45ed-b224-52dccab7b31f-Nike_Toronto_AM95.webp",
+            "label": "Nike Toronto AM95",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "am95-owner-6"
+          },
+          {
+            "type": "image",
+            "src": "/owner-media/media/7fa5010c-430d-46d0-93ba-c836bd241c22-WSE_2593_000002_00000_00000.webp",
+            "label": "Campaign Still",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "am95-owner-7"
+          },
+          {
+            "type": "video",
+            "src": "/owner-media/media/6eeda85d-b427-45a1-baee-da27b7d75e48-AGO.mp4",
+            "label": "AGO",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "am95-owner-8"
+          },
+          {
+            "type": "image",
+            "src": "/owner-media/media/2adbf996-5e71-4ffa-b61a-b8ce8ccc3a03-SCARB_SURREAL.webp",
+            "label": "SCARB SURREAL",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "am95-owner-9"
+          },
+          {
+            "type": "video",
+            "src": "/owner-media/media/0aa55ae9-4a82-4417-9229-f5d04ab11128-IMG_0560.mov",
+            "label": "IMG 0560",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "am95-owner-10"
+          }
+        ],
+        "impactRank": 1,
+        "accent": "#fd4aa1",
+        "enabled": true,
+        "coverType": "video"
+      },
+      {
+        "id": "amd",
+        "year": "2022",
+        "title": "Air Max Day Worldwide",
+        "region": "Toronto, Canada",
+        "status": "Confirmed",
+        "discipline": "Global campaign / 3D / live experience",
+        "summary": "Selected to represent Canada in Nike's global Air Max Day campaign, Bring the Future to Light, combining a featured artist story, 3D motion, a live broadcast, and a boundary-pushing local panel.",
+        "role": "Canada campaign representative, featured artist, 3D animation, panel curation, co-production",
+        "deliverables": [
+          "Bring the Future to Light",
+          "Global campaign feature",
+          "3D animation",
+          "EVO reel",
+          "AR frames",
+          "Livestream motion system",
+          "Panel curation"
+        ],
+        "media": "/media/2021-amd.mp4",
+        "poster": "/media/2021-amd.webp",
+        "gallery": [
+          {
+            "type": "video",
+            "src": "/owner-media/media/72a2ca49-3179-47fb-b279-7f7bb2ee0523-nike_1.mp4",
+            "label": "Nike 1 / Campaign Recap",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "amd-owner-1"
+          },
+          {
+            "type": "image",
+            "src": "/gallery/amd/cn-tower-marker.webp",
+            "label": "CN Tower AR Marker",
+            "aspect": "square",
+            "id": "amd-2",
+            "enabled": true
+          },
+          {
+            "type": "video",
+            "src": "/gallery/amd/evo-reel.mp4",
+            "poster": "/gallery/amd/evo-reel-poster.webp",
+            "label": "Air Max EVO Reel",
+            "aspect": "portrait",
+            "id": "amd-3",
+            "enabled": true
+          },
+          {
+            "type": "image",
+            "src": "/owner-media/media/9e3c4675-aa7e-492d-a666-2064545454d6-SP21_NSW_Air_NA_Will_AM97_0212.webp",
+            "label": "Air Max 97 Portrait / 0212",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "amd-owner-4"
+          },
+          {
+            "type": "image",
+            "src": "/owner-media/media/cb6ea0ff-d47f-47a0-b72e-6b3aa4028cc0-Billboard.webp",
+            "label": "Billboard",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "amd-owner-5"
+          },
+          {
+            "type": "video",
+            "src": "/owner-media/media/a8f18f78-d96c-40e7-86df-098341b1093c-CNTower_Outro.mp4",
+            "label": "CN Tower Outro",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "amd-owner-6"
+          },
+          {
+            "type": "video",
+            "src": "/owner-media/media/d9f97588-d1d9-4085-9c79-d218869598d4-CNTower_Intro.mp4",
+            "label": "CN Tower Intro",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "amd-owner-7"
+          },
+          {
+            "type": "video",
+            "src": "/owner-media/media/72796c5a-1b14-4c55-8a74-f2edda027ab8-Conveyor_Loop_1.mp4",
+            "label": "Conveyor Loop / 01",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "amd-owner-8"
+          },
+          {
+            "type": "video",
+            "src": "/owner-media/media/9fc27f99-e78d-4912-9f33-7feea40a7876-AMDWW_Background.mp4",
+            "label": "AMD Worldwide Background",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "amd-owner-9"
+          },
+          {
+            "type": "video",
+            "src": "/owner-media/media/7c7a4632-187f-4f16-9edb-36e63b7dc7bc-CNTower_Outro_1.mp4",
+            "label": "CN Tower Outro / 01",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "amd-owner-10"
+          },
+          {
+            "type": "image",
+            "src": "/owner-media/media/98652f09-e9c0-40d2-b491-39fe8dd9b9d4-SP21_NSW_Air_NA_Will_vapormaxEVO_0719.webp",
+            "label": "Vapormax EVO Portrait / 0719",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "amd-owner-11"
+          },
+          {
+            "type": "image",
+            "src": "/owner-media/media/bbe0565e-2314-4e36-9e85-bfff780a34cb-SP21_NSW_Air_NA_Will_AM97_0098.webp",
+            "label": "Air Max 97 Portrait / 0098",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "amd-owner-12"
+          }
+        ],
+        "impactRank": 4,
+        "accent": "#ff6b35",
+        "enabled": true,
+        "coverType": "video"
+      },
+      {
+        "id": "dubai",
+        "year": "2021",
+        "title": "Cactus Jack × Fragment",
+        "region": "Dubai, UAE",
+        "status": "Confirmed",
+        "discipline": "Regional launch / motion",
+        "summary": "Regional launch content for the Travis Scott, Cactus Jack, and Fragment release, delivered in branded and no-logo placements.",
+        "role": "3D animation, motion design, delivery systems",
+        "deliverables": [
+          "Branded social film",
+          "No-logo placement",
+          "Regional launch assets"
+        ],
+        "media": "/media/2021-dubai.mp4",
+        "poster": "/media/2021-dubai.webp",
+        "gallery": [
+          {
+            "type": "video",
+            "src": "/gallery/dubai/logo-version.mp4",
+            "poster": "/gallery/dubai/logo-version-poster.webp",
+            "label": "Regional Launch / Branded",
+            "aspect": "portrait",
+            "id": "dubai-1",
+            "enabled": true
+          }
+        ],
+        "impactRank": 7,
+        "accent": "#58a5ff",
+        "enabled": true,
+        "coverType": "video"
+      },
+      {
+        "id": "kuwait",
+        "year": "2021",
+        "title": "Air Max Day Kuwait",
+        "region": "Kuwait",
+        "status": "Confirmed",
+        "discipline": "Motion / conveyor system",
+        "summary": "Air Max Day motion content built around a finished campaign film and a high-resolution conveyor-loop sequence.",
+        "role": "3D animation, motion systems, final delivery",
+        "deliverables": [
+          "Campaign film",
+          "Conveyor loop",
+          "High-resolution frame sequence"
+        ],
+        "media": "/media/2021-kuwait.mp4",
+        "poster": "/media/2021-kuwait.webp",
+        "gallery": [
+          {
+            "type": "video",
+            "src": "/gallery/kuwait/campaign-film.mp4",
+            "poster": "/gallery/kuwait/campaign-film-poster.webp",
+            "label": "Air Max Day Campaign Film",
+            "aspect": "portrait",
+            "id": "kuwait-1",
+            "enabled": true
+          },
+          {
+            "type": "image",
+            "src": "/gallery/kuwait/conveyor-frame.webp",
+            "label": "Conveyor Sequence Frame",
+            "aspect": "landscape",
+            "id": "kuwait-2",
+            "enabled": true
+          }
+        ],
+        "impactRank": 6,
+        "accent": "#c6a7ff",
+        "enabled": true,
+        "coverType": "video"
+      },
+      {
+        "id": "ofsaa",
+        "year": "2021",
+        "title": "OFSAA Nike XC AR",
+        "region": "Ontario, Canada",
+        "status": "Confirmed",
+        "discipline": "Instagram AR / Snapchat",
+        "summary": "A matched pair of social AR experiences for Instagram and Snapchat, supported by motion assets and a GIPHY system.",
+        "role": "AR development, motion design, cross-platform delivery",
+        "deliverables": [
+          "Spark AR experience",
+          "Lens Studio experience",
+          "GIF system",
+          "GIPHY assets"
+        ],
+        "media": "/media/2021-ofsaa.mp4",
+        "poster": "/media/2021-ofsaa.webp",
+        "gallery": [
+          {
+            "type": "video",
+            "src": "/gallery/ofsaa/finish-on-empty.mp4",
+            "poster": "/gallery/ofsaa/finish-on-empty-poster.webp",
+            "label": "Finish On Empty / GIPHY",
+            "aspect": "square",
+            "id": "ofsaa-1",
+            "enabled": true
+          },
+          {
+            "type": "video",
+            "src": "/owner-media/media/9f706391-63ea-46a3-8e8e-831b9afccdb6-Video-2021-10-29-11-54-47-AM.mp4",
+            "label": "Field Test / 11:54",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "ofsaa-owner-2"
+          },
+          {
+            "type": "video",
+            "src": "/owner-media/media/ee6c18d0-0d84-4ba6-9121-b5cd415a60aa-Video-2021-10-29-11-56-49-AM.mp4",
+            "label": "Field Test / 11:56",
+            "aspect": "portrait",
+            "enabled": true,
+            "id": "ofsaa-owner-3"
+          }
+        ],
+        "impactRank": 8,
+        "accent": "#ffffff",
+        "enabled": true,
+        "coverType": "video"
+      },
+      {
+        "id": "rayguns",
+        "year": "2021",
+        "title": "Roswell Rayguns",
+        "region": "Canada",
+        "status": "Confirmed",
+        "discipline": "Animation / social / GIPHY",
+        "summary": "An animated campaign system for the Roswell Rayguns, built for social formats and extended through a branded sticker world.",
+        "role": "3D animation, motion design, campaign toolkit",
+        "deliverables": [
+          "30-second animation",
+          "Social formats",
+          "GIPHY sticker pack",
+          "Loops"
+        ],
+        "media": "/media/2021-rayguns.mp4",
+        "poster": "/media/2021-rayguns.webp",
+        "gallery": [
+          {
+            "type": "video",
+            "src": "/gallery/rayguns/final-4x5.mp4",
+            "poster": "/gallery/rayguns/final-4x5-poster.webp",
+            "label": "Campaign Film / 4:5",
+            "aspect": "portrait",
+            "id": "rayguns-1",
+            "enabled": true
+          }
+        ],
+        "impactRank": 5,
+        "accent": "#2de5ff",
+        "enabled": true,
+        "coverType": "video"
+      },
+      {
+        "id": "canada",
+        "year": "2020",
+        "title": "Canada Soccer Jersey",
+        "region": "Toronto, Canada",
+        "status": "Confirmed",
+        "discipline": "CGI launch / social",
+        "summary": "The first Nike chapter: a CGI-led launch centered on the Canada Soccer jersey, the Swoosh, maple leaf, and #20 CANADA details.",
+        "role": "Creative direction, CGI animation, production",
+        "deliverables": [
+          "20-second CGI film",
+          "Multi-format social stills",
+          "Looping animation"
+        ],
+        "media": "/media/2020-canada.mp4",
+        "poster": "/media/2020-canada.webp",
+        "gallery": [
+          {
+            "type": "video",
+            "src": "/gallery/canada/launch-film.mp4",
+            "poster": "/gallery/canada/launch-film-poster.webp",
+            "label": "Canada Soccer Launch Film",
+            "aspect": "portrait",
+            "id": "canada-1",
+            "enabled": true
+          },
+          {
+            "type": "image",
+            "src": "/gallery/canada/jersey-horizontal.webp",
+            "label": "Jersey Still / Landscape",
+            "aspect": "landscape",
+            "id": "canada-4",
+            "enabled": true
+          }
+        ],
+        "impactRank": 9,
+        "accent": "#ff233d",
+        "enabled": true,
+        "coverType": "video"
+      }
+    ],
+    "updatedAt": "2026-07-27T03:09:53.508Z",
+    "updatedBy": "owner-preview-snapshot"
+  }
 }
