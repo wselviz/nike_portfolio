@@ -667,12 +667,16 @@ function GalleryMedia({
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const activeProjectRef = useRef(0);
+  const shoeInspectingRef = useRef(false);
+  const shoeViewResetRef = useRef(0);
+  const inspectCloseRef = useRef<HTMLButtonElement>(null);
   const [projects, setProjects] = useState<Project[]>(defaultProjects);
   const [sortMode, setSortMode] = useState<"latest" | "impact">("latest");
   const [activeId, setActiveId] = useState(defaultProjects[0].id);
   const [selected, setSelected] = useState<Project | null>(null);
   const [introComplete, setIntroComplete] = useState(false);
   const [shoeModelReady, setShoeModelReady] = useState(false);
+  const [shoeInspecting, setShoeInspecting] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -714,6 +718,27 @@ export default function Home() {
     const timeout = window.setTimeout(() => setIntroComplete(true), 1100);
     return () => window.clearTimeout(timeout);
   }, []);
+
+  useEffect(() => {
+    shoeInspectingRef.current = shoeInspecting;
+    if (!shoeInspecting) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const previousFocus = document.activeElement as HTMLElement | null;
+    document.body.style.overflow = "hidden";
+    inspectCloseRef.current?.focus();
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setShoeInspecting(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+      previousFocus?.focus();
+    };
+  }, [shoeInspecting]);
 
   useEffect(() => {
     const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-project-id]"));
@@ -797,9 +822,20 @@ export default function Home() {
 
     let shoePresentation: THREE.Group | null = null;
     let shoeMaterial: THREE.MeshPhysicalMaterial | null = null;
+    let shoeWireMaterial: THREE.ShaderMaterial | null = null;
     let albedoTexture: THREE.Texture | null = null;
     let normalTexture: THREE.Texture | null = null;
     let shoeLoadCancelled = false;
+    let inspectionBlend = 0;
+    let inspectionYaw = 0.08;
+    let inspectionPitch = 0.04;
+    let inspectionZoom = 1;
+    let lastResetSignal = shoeViewResetRef.current;
+    let isDraggingShoe = false;
+    let lastDragX = 0;
+    let lastDragY = 0;
+    let pinchDistance = 0;
+    const activePointers = new Map<number, { x: number; y: number }>();
 
     const layoutShoe = () => {
       if (!shoePresentation) return;
@@ -811,7 +847,13 @@ export default function Home() {
       const z = isMobile ? 1.9 : 1.45;
       shoePresentation.scale.setScalar(scale);
       shoePresentation.position.set(x, y, z);
+      shoePresentation.userData.heroScale = scale;
+      shoePresentation.userData.heroX = x;
       shoePresentation.userData.baseY = y;
+      shoePresentation.userData.heroZ = z;
+      shoePresentation.userData.inspectScale = isMobile ? 0.14 : isTablet ? 0.225 : 0.3;
+      shoePresentation.userData.inspectY = isMobile ? 0.15 : 0.05;
+      shoePresentation.userData.inspectZ = isMobile ? 0.45 : 0.9;
     };
 
     const disposeFbx = (root: THREE.Object3D) => {
@@ -859,6 +901,8 @@ export default function Home() {
           metalness: 0.02,
           clearcoat: 0.16,
           clearcoatRoughness: 0.72,
+          emissive: new THREE.Color(0x17220a),
+          emissiveIntensity: 0.02,
           transparent: true,
         });
 
@@ -878,9 +922,52 @@ export default function Home() {
         fbx.position.sub(center);
         fbx.rotation.y = Math.PI / 2;
 
+        shoeWireMaterial = new THREE.ShaderMaterial({
+          uniforms: {
+            uTime: { value: 0 },
+            uFocus: { value: 0 },
+          },
+          vertexShader: `
+            varying vec3 vObjectPosition;
+            void main() {
+              vObjectPosition = position;
+              gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+          `,
+          fragmentShader: `
+            uniform float uTime;
+            uniform float uFocus;
+            varying vec3 vObjectPosition;
+            void main() {
+              float band = fract(vObjectPosition.x * 0.065 - uTime * 0.18);
+              float scan = pow(max(0.0, 1.0 - abs(band - 0.5) * 7.5), 3.0);
+              float flicker = 0.72 + sin(uTime * 3.0 + vObjectPosition.z * 0.18) * 0.28;
+              float spectrum = 0.5 + 0.5 * sin(vObjectPosition.x * 0.12 + uTime);
+              vec3 cyan = vec3(0.22, 0.82, 1.0);
+              vec3 volt = vec3(0.84, 1.0, 0.20);
+              vec3 color = mix(cyan, volt, spectrum);
+              float alpha = (0.045 + scan * 0.68) * mix(0.28, 1.0, uFocus) * flicker;
+              gl_FragColor = vec4(color, alpha);
+            }
+          `,
+          wireframe: true,
+          transparent: true,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+          toneMapped: false,
+        });
+        const wireframeFbx = fbx.clone(true);
+        wireframeFbx.scale.setScalar(1.004);
+        wireframeFbx.traverse((object) => {
+          const mesh = object as THREE.Mesh;
+          if (!mesh.isMesh) return;
+          mesh.material = shoeWireMaterial as THREE.ShaderMaterial;
+          mesh.renderOrder = 4;
+        });
+
         shoePresentation = new THREE.Group();
         shoePresentation.name = "EVO_AR_HERO";
-        shoePresentation.add(fbx);
+        shoePresentation.add(fbx, wireframeFbx);
         scene.add(shoePresentation);
         layoutShoe();
         setShoeModelReady(true);
@@ -996,8 +1083,69 @@ export default function Home() {
 
     const pointer = new THREE.Vector2();
     const onPointerMove = (event: PointerEvent) => {
+      if (shoeInspectingRef.current && activePointers.has(event.pointerId)) {
+        activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+        if (activePointers.size === 2) {
+          const [first, second] = Array.from(activePointers.values());
+          const nextDistance = Math.hypot(second.x - first.x, second.y - first.y);
+          if (pinchDistance > 0) {
+            inspectionZoom = THREE.MathUtils.clamp(
+              inspectionZoom * (nextDistance / pinchDistance),
+              0.72,
+              1.75,
+            );
+          }
+          pinchDistance = nextDistance;
+        } else if (isDraggingShoe) {
+          const deltaX = event.clientX - lastDragX;
+          const deltaY = event.clientY - lastDragY;
+          inspectionYaw += deltaX * 0.008;
+          inspectionPitch = THREE.MathUtils.clamp(
+            inspectionPitch + deltaY * 0.006,
+            -0.72,
+            0.72,
+          );
+          lastDragX = event.clientX;
+          lastDragY = event.clientY;
+        }
+        return;
+      }
       pointer.x = (event.clientX / window.innerWidth - 0.5) * 2;
       pointer.y = (event.clientY / window.innerHeight - 0.5) * 2;
+    };
+    const onPointerDown = (event: PointerEvent) => {
+      if (!shoeInspectingRef.current) return;
+      canvas.setPointerCapture(event.pointerId);
+      activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+      isDraggingShoe = true;
+      lastDragX = event.clientX;
+      lastDragY = event.clientY;
+      if (activePointers.size === 2) {
+        const [first, second] = Array.from(activePointers.values());
+        pinchDistance = Math.hypot(second.x - first.x, second.y - first.y);
+      }
+    };
+    const onPointerUp = (event: PointerEvent) => {
+      activePointers.delete(event.pointerId);
+      if (canvas.hasPointerCapture(event.pointerId)) {
+        canvas.releasePointerCapture(event.pointerId);
+      }
+      pinchDistance = 0;
+      isDraggingShoe = activePointers.size > 0;
+      const remaining = Array.from(activePointers.values())[0];
+      if (remaining) {
+        lastDragX = remaining.x;
+        lastDragY = remaining.y;
+      }
+    };
+    const onWheel = (event: WheelEvent) => {
+      if (!shoeInspectingRef.current) return;
+      event.preventDefault();
+      inspectionZoom = THREE.MathUtils.clamp(
+        inspectionZoom * Math.exp(event.deltaY * -0.0012),
+        0.72,
+        1.75,
+      );
     };
     const onResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
@@ -1008,6 +1156,10 @@ export default function Home() {
     };
     window.addEventListener("pointermove", onPointerMove, { passive: true });
     window.addEventListener("resize", onResize);
+    canvas.addEventListener("pointerdown", onPointerDown);
+    canvas.addEventListener("pointerup", onPointerUp);
+    canvas.addEventListener("pointercancel", onPointerUp);
+    canvas.addEventListener("wheel", onWheel, { passive: false });
 
     const clock = new THREE.Clock();
     let frame = 0;
@@ -1025,25 +1177,59 @@ export default function Home() {
       dust.rotation.y = time * 0.009;
 
       if (shoePresentation && shoeMaterial) {
+        const inspecting = shoeInspectingRef.current;
+        inspectionBlend += ((inspecting ? 1 : 0) - inspectionBlend) * 0.085;
+        if (lastResetSignal !== shoeViewResetRef.current) {
+          lastResetSignal = shoeViewResetRef.current;
+          inspectionYaw = 0.08;
+          inspectionPitch = 0.04;
+          inspectionZoom = 1;
+        }
+
         const heroProgress = window.scrollY / Math.max(1, window.innerHeight);
         const fade = 1 - THREE.MathUtils.smoothstep(heroProgress, 0.48, 1.02);
-        shoeMaterial.opacity = fade;
-        shoePresentation.visible = fade > 0.01;
+        shoeMaterial.opacity = Math.max(fade, inspectionBlend);
+        shoeMaterial.emissiveIntensity =
+          0.02 + inspectionBlend * (0.035 + Math.sin(time * 2.1) * 0.012);
+        shoePresentation.visible = fade > 0.01 || inspectionBlend > 0.01;
+        const heroScale = Number(shoePresentation.userData.heroScale ?? 0.255);
+        const inspectScale = Number(shoePresentation.userData.inspectScale ?? 0.3);
+        const heroX = Number(shoePresentation.userData.heroX ?? 2.35);
         const baseY = Number(shoePresentation.userData.baseY ?? 0.52);
+        const heroZ = Number(shoePresentation.userData.heroZ ?? 1.45);
+        const inspectY = Number(shoePresentation.userData.inspectY ?? 0.05);
+        const inspectZ = Number(shoePresentation.userData.inspectZ ?? 0.9);
         const floatOffset = reduceMotion ? 0 : Math.sin(time * 0.72) * 0.075;
-        shoePresentation.position.y = baseY + floatOffset - heroProgress * 0.34;
+        const heroY = baseY + floatOffset - heroProgress * 0.34;
+        shoePresentation.position.x = THREE.MathUtils.lerp(heroX, 0, inspectionBlend);
+        shoePresentation.position.y = THREE.MathUtils.lerp(heroY, inspectY, inspectionBlend);
+        shoePresentation.position.z = THREE.MathUtils.lerp(heroZ, inspectZ, inspectionBlend);
+        const targetScale = THREE.MathUtils.lerp(
+          heroScale,
+          inspectScale * inspectionZoom,
+          inspectionBlend,
+        );
+        shoePresentation.scale.setScalar(targetScale);
+
+        const heroPitch = reduceMotion ? 0.035 : pointer.y * 0.075 + 0.035;
+        const heroYaw = reduceMotion ? 0 : pointer.x * 0.17;
+        const heroRoll = reduceMotion ? -0.055 : pointer.x * -0.045 - 0.055;
+        const targetPitch = THREE.MathUtils.lerp(heroPitch, inspectionPitch, inspectionBlend);
+        const targetYaw = THREE.MathUtils.lerp(heroYaw, inspectionYaw, inspectionBlend);
+        const targetRoll = THREE.MathUtils.lerp(heroRoll, 0, inspectionBlend);
         shoePresentation.rotation.x +=
-          ((reduceMotion ? 0.035 : pointer.y * 0.075 + 0.035) -
-            shoePresentation.rotation.x) *
-          0.035;
+          (targetPitch - shoePresentation.rotation.x) * (inspecting ? 0.13 : 0.035);
         shoePresentation.rotation.y +=
-          ((reduceMotion ? 0 : pointer.x * 0.17) - shoePresentation.rotation.y) *
-          0.035;
+          (targetYaw - shoePresentation.rotation.y) * (inspecting ? 0.13 : 0.035);
         shoePresentation.rotation.z +=
-          ((reduceMotion ? -0.055 : pointer.x * -0.045 - 0.055) -
-            shoePresentation.rotation.z) *
-          0.035;
+          (targetRoll - shoePresentation.rotation.z) * (inspecting ? 0.13 : 0.035);
+        if (shoeWireMaterial) {
+          shoeWireMaterial.uniforms.uTime.value = time;
+          shoeWireMaterial.uniforms.uFocus.value = inspectionBlend;
+        }
       }
+      world.visible = inspectionBlend < 0.82;
+      dust.visible = inspectionBlend < 0.82;
 
       nodes.forEach((node, index) => {
         const active = index === activeProjectRef.current;
@@ -1054,8 +1240,14 @@ export default function Home() {
         material.emissiveIntensity += ((active ? 2.2 : 0.65) - material.emissiveIntensity) * 0.08;
       });
 
-      camera.position.x += ((reduceMotion ? 0 : pointer.x * 0.35) - camera.position.x) * 0.02;
-      camera.position.y += ((reduceMotion ? 0.2 : -pointer.y * 0.22 + 0.2) - camera.position.y) * 0.02;
+      const cameraPointerInfluence = 1 - inspectionBlend;
+      camera.position.x +=
+        ((reduceMotion ? 0 : pointer.x * 0.35 * cameraPointerInfluence) - camera.position.x) *
+        0.02;
+      camera.position.y +=
+        ((reduceMotion ? 0.2 : -pointer.y * 0.22 * cameraPointerInfluence + 0.2) -
+          camera.position.y) *
+        0.02;
       renderer.render(scene, camera);
       frame = window.requestAnimationFrame(render);
     };
@@ -1066,6 +1258,10 @@ export default function Home() {
       window.cancelAnimationFrame(frame);
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("resize", onResize);
+      canvas.removeEventListener("pointerdown", onPointerDown);
+      canvas.removeEventListener("pointerup", onPointerUp);
+      canvas.removeEventListener("pointercancel", onPointerUp);
+      canvas.removeEventListener("wheel", onWheel);
       dustGeometry.dispose();
       nodeGeometry.dispose();
       route.geometry.dispose();
@@ -1080,6 +1276,7 @@ export default function Home() {
       }
       albedoTexture?.dispose();
       normalTexture?.dispose();
+      shoeWireMaterial?.dispose();
       renderer.dispose();
     };
   }, [projects]);
@@ -1094,12 +1291,60 @@ export default function Home() {
   };
 
   return (
-    <main className={introComplete ? "site is-ready" : "site"}>
+    <main
+      className={`${introComplete ? "site is-ready" : "site"} ${
+        shoeInspecting ? "is-inspecting" : ""
+      }`}
+    >
       <div className="intro-wipe" aria-hidden="true">
         <span>WS / NIKE ARCHIVE</span>
       </div>
       <div className="cursor-orb" aria-hidden="true" />
       <canvas ref={canvasRef} className="webgl-stage" aria-hidden="true" />
+      {shoeInspecting ? (
+        <>
+          <div className="shoe-inspector-backdrop" aria-hidden="true" />
+          <section
+            className="shoe-inspector-hud"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="shoe-inspector-title"
+          >
+            <div className="shoe-inspector-index">
+              <span>OBJECT / 001</span>
+              <span>REALTIME SCAN</span>
+            </div>
+            <div className="shoe-inspector-heading">
+              <p>NIKE AIR MAX EVO</p>
+              <h2 id="shoe-inspector-title">INSPECT THE OBJECT</h2>
+              <span>DRAG TO ROTATE / SCROLL OR PINCH TO ZOOM</span>
+            </div>
+            <div className="shoe-inspector-actions">
+              <button
+                type="button"
+                onClick={() => {
+                  shoeViewResetRef.current += 1;
+                }}
+              >
+                RESET VIEW
+              </button>
+              <button
+                ref={inspectCloseRef}
+                type="button"
+                onClick={() => setShoeInspecting(false)}
+              >
+                CLOSE / ESC
+              </button>
+            </div>
+            <div className="shoe-inspector-reticle" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <i />
+            </div>
+          </section>
+        </>
+      ) : null}
       <div className="noise" aria-hidden="true" />
       <div className="ascii-field" aria-hidden="true">
         <span>░▒▓ WS_SYS / 3D / VFX / AI / 2020-25 ▓▒░</span>
@@ -1129,8 +1374,19 @@ export default function Home() {
             {shoeModelReady ? "LIVE 3D OBJECT" : "LOADING 3D OBJECT"}
           </span>
           <strong>EVO / AIR MAX DAY</strong>
-          <small>MOVE CURSOR TO INSPECT / ALBEDO + NORMAL SCAN</small>
+          <small>TAP OBJECT TO ISOLATE / ALBEDO + NORMAL SCAN</small>
         </div>
+        <button
+          type="button"
+          className={`hero-shoe-trigger ${shoeModelReady ? "is-ready" : ""}`}
+          onClick={() => {
+            if (shoeModelReady) setShoeInspecting(true);
+          }}
+          disabled={!shoeModelReady}
+          aria-label="Open the Nike Air Max EVO interactive 3D viewer"
+        >
+          <span>CLICK / TAP TO INSPECT</span>
+        </button>
         <div className="hero-title-wrap">
           <p className="hero-number">
             {String(projects.length).padStart(2, "0")} / CONFIRMED
