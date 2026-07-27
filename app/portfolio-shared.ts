@@ -32,11 +32,13 @@ export type PortfolioProject = {
 };
 
 export type PortfolioManifest = {
-  version: 1;
+  version: number;
   projects: PortfolioProject[];
   updatedAt?: string;
   updatedBy?: string;
 };
+
+export const CURRENT_PORTFOLIO_VERSION = 2;
 
 const MAX_PROJECTS = 50;
 const MAX_MEDIA_PER_PROJECT = 200;
@@ -120,7 +122,12 @@ export function normalizeManifest(input: unknown): PortfolioManifest {
   });
 
   return {
-    version: 1,
+    version:
+      typeof candidate.version === "number" &&
+      Number.isInteger(candidate.version) &&
+      candidate.version > 0
+        ? candidate.version
+        : 1,
     projects,
     updatedAt:
       typeof candidate.updatedAt === "string" ? candidate.updatedAt.slice(0, 80) : undefined,

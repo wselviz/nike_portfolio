@@ -282,19 +282,21 @@ const defaultProjects: Project[] = [
   },
   {
     id: "amd",
-    year: "2021",
+    year: "2022",
     title: "Air Max Day Worldwide",
     region: "Toronto, Canada",
     status: "Confirmed",
-    discipline: "3D / AR / live experience",
+    discipline: "Global campaign / 3D / live experience",
     summary:
-      "A live-show chapter combining 3D animation, AR, a boundary-pushing local panel, and co-production with Nike.",
-    role: "Featured artist, 3D animation, panel curation, co-production",
+      "Selected to represent Canada in Nike's global Air Max Day campaign, Bring the Future to Light—combining a featured artist story, 3D motion, a live broadcast, and a boundary-pushing local panel.",
+    role: "Canada campaign representative, featured artist, 3D animation, panel curation, co-production",
     deliverables: [
+      "Bring the Future to Light",
+      "Global campaign feature",
       "3D animation",
       "EVO reel",
       "AR frames",
-      "Conveyor visuals",
+      "Livestream motion system",
       "Panel curation",
     ],
     media: "/media/2021-amd.mp4",
@@ -400,6 +402,39 @@ const defaultProjects: Project[] = [
     accent: "#ff233d",
   },
 ];
+
+const roleFitSignals = [
+  {
+    label: "GENAI SYSTEMS",
+    detail: "Custom node graphs, model evaluation, and production-ready workflows",
+    href: "#practice",
+  },
+  {
+    label: "2D / 3D FOOTWEAR",
+    detail: "Nine years across design, animation, VFX, and footwear visualization",
+    href: "#origin",
+  },
+  {
+    label: "PHYSICAL PROTOTYPING",
+    detail: "Additive manufacturing and sustainable 3D-printed sneaker R&D",
+    href: "#origin-path",
+  },
+  {
+    label: "SPATIAL + REAL-TIME",
+    detail: "AR, VR, WebXR, Unity, Unreal, scanning, and motion capture",
+    href: "#project-ofsaa",
+  },
+  {
+    label: "CREATIVE → ENGINEERING",
+    detail: "Translating design needs into scalable technical systems",
+    href: "#project-am95",
+  },
+  {
+    label: "NIKE CONTEXT",
+    detail: "Campaign craft, footwear fluency, and trusted delivery since 2020",
+    href: "#project-amd",
+  },
+] as const;
 
 function ArrowIcon() {
   return <span aria-hidden="true">↗</span>;
@@ -874,10 +909,10 @@ export default function Home() {
         </a>
         <p>AI CREATIVE TECHNOLOGIST</p>
         <nav aria-label="Primary navigation">
+          <a href="#role-fit">Role Fit</a>
           <a href="#projects">Projects</a>
           <a href="#origin">Origin</a>
           <a href="/studio">Studio</a>
-          <a href="mailto:selviz@rendrd.com">Contact</a>
         </nav>
       </header>
 
@@ -911,7 +946,7 @@ export default function Home() {
             <b>9.2</b> GB SOURCE
           </span>
           <span>
-            <b>27</b> VISUAL ASSETS
+            <b>31</b> VISUAL ASSETS
           </span>
           <span>
             <b>03</b> REGIONS
@@ -919,22 +954,85 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="role-fit" id="role-fit" aria-labelledby="role-fit-title">
+        <div className="role-fit-copy">
+          <p className="section-label">01 / WHY WILL × NIKE</p>
+          <h2 id="role-fit-title">
+            BUILT FOR THE
+            <br />
+            <span>GENERATIVE STUDIO.</span>
+          </h2>
+          <p>
+            Nike is looking for a designer who can build tools, connect creative
+            and engineering teams, and move experimental AI into real footwear
+            workflows. That intersection has been my practice for nine years.
+          </p>
+          <a
+            className="role-link"
+            href="https://careers.nike.com/generative-ai-lead-designer/job/R-88358"
+            target="_blank"
+            rel="noreferrer"
+          >
+            VIEW ROLE R-88358 <ArrowIcon />
+          </a>
+        </div>
+
+        <div className="skill-orbit" aria-label="Six reasons Will Selviz matches the role">
+          <div className="skill-orbit-rings" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </div>
+          <div className="skill-core">
+            <span>W/S</span>
+            <b>DESIGNER</b>
+            <b>+</b>
+            <b>TOOL BUILDER</b>
+            <small>CLICK A SIGNAL</small>
+          </div>
+          <div className="skill-node-list">
+            {roleFitSignals.map((signal, index) => (
+              <a
+                key={signal.label}
+                href={signal.href}
+                className="skill-node"
+                style={
+                  {
+                    "--angle": `${index * 60 - 30}deg`,
+                    "--reverse-angle": `${30 - index * 60}deg`,
+                  } as React.CSSProperties
+                }
+              >
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <strong>{signal.label}</strong>
+                <small>{signal.detail}</small>
+              </a>
+            ))}
+          </div>
+          <span className="skill-orbit-ascii" aria-hidden="true">
+            ░▒▓ INPUT → PROTOTYPE → PIPELINE → ADOPTION ▓▒░
+          </span>
+        </div>
+      </section>
+
       <section className="origin-exposure" aria-labelledby="origin-exposure-title">
         <div className="origin-exposure-copy">
-          <p className="section-label">00 / ORIGIN FILES</p>
+          <p className="section-label">02 / ORIGIN FILES</p>
           <h2 id="origin-exposure-title">
             The work started
             <br />
             <span>as a shoe.</span>
           </h2>
           <p>
-            Before the campaigns, <em>Solely</em> turned sketches, scans, 3D
-            prints, and material experiments into a working method: explore the
-            impossible, build the pipeline, then make the image real.
+            Before the campaigns, Autodesk selected me to develop{" "}
+            <em>Solely</em>—a sustainable 3D-printed sneaker thesis—inside its
+            Advanced Research Labs in Toronto. The work turned sketches, scans,
+            fabrication, and material experiments into a method I still use:
+            explore the impossible, build the pipeline, then make it real.
           </p>
           <div className="origin-exposure-meta" aria-label="Origin archive details">
-            <span>THESIS / PROTOTYPES / PROCESS</span>
-            <span>TORONTO / 2016</span>
+            <span>AUTODESK RESEARCH / THESIS / PROTOTYPES</span>
+            <span>TORONTO / ORIGIN</span>
           </div>
         </div>
 
@@ -1005,8 +1103,121 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="manifesto" aria-labelledby="manifesto-title">
-        <p className="section-label">01 / PRACTICE</p>
+      <section className="origin-path" id="origin-path" aria-labelledby="origin-path-title">
+        <div className="origin-path-head">
+          <p className="section-label">02.1 / FROM SPEC TO SWOOSH</p>
+          <h2 id="origin-path-title">
+            A SELF-STARTED
+            <br />
+            <span>FOOTWEAR PRACTICE.</span>
+          </h2>
+          <p>
+            The recap is the connective tissue: sustainable footwear research,
+            self-initiated Nike concepts, and the campaign work that followed.
+          </p>
+        </div>
+
+        <figure className="origin-recap">
+          <video
+            data-auto-video
+            src="/origin/nike-origin-recap.mp4"
+            poster="/origin/thesis-board.webp"
+            autoPlay
+            muted
+            loop
+            playsInline
+            controls
+            preload="metadata"
+            aria-label="Recap of Will Selviz's footwear design and Nike campaign work"
+          />
+          <figcaption>
+            <span>NIKE_1 / ORIGIN RECAP</span>
+            <span>LEAD FILE / PLAY WITH SOUND</span>
+          </figcaption>
+        </figure>
+
+        <div className="origin-path-story">
+          <article>
+            <span>01</span>
+            <h3>SELECTED BY AUTODESK</h3>
+            <p>
+              Autodesk brought the sustainable 3D-printing thesis into its
+              Advanced Research Labs in Toronto. Errolson Hugh of ACRONYM
+              advised the thesis alongside Nike designers, grounding the
+              experiment in both technical rigor and footwear culture.
+            </p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>SPEC WORK BECAME A LAB</h3>
+            <p>
+              I kept designing Nike sneakers and making self-initiated ads—not
+              as mock campaigns, but as repeatable experiments in 3D, materials,
+              motion, scanning, and image-making.
+            </p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>NIKE TOOK NOTICE</h3>
+            <p>
+              That body of work led Nike to hire me for a CGI launch film for
+              the Canada National Soccer Team kit. It became the first chapter
+              in an ongoing campaign relationship.
+            </p>
+            <a href="#project-canada">OPEN CANADA SOCCER CASE STUDY <ArrowIcon /></a>
+          </article>
+          <article>
+            <span>04</span>
+            <h3>CANADA → THE WORLD</h3>
+            <p>
+              In 2022, I was chosen to represent Canada in Nike&apos;s global
+              Air Max Day campaign, <em>Bring the Future to Light</em>.
+            </p>
+            <a href="#project-amd">OPEN GLOBAL CAMPAIGN <ArrowIcon /></a>
+          </article>
+        </div>
+
+        <div className="origin-object-grid" aria-label="Solely 3D-printed sneaker details">
+          <figure className="origin-object origin-object-main">
+            <img
+              src="/origin/solely-side.jpg"
+              loading="lazy"
+              alt="Side profile of the Solely sneaker with a 3D-printed heel structure"
+            />
+            <figcaption>SOLELY / WEARABLE PROTOTYPE</figcaption>
+          </figure>
+          <figure className="origin-object">
+            <img
+              src="/origin/solely-cage.jpg"
+              loading="lazy"
+              alt="Close-up of the Solely sneaker's 3D-printed heel cage"
+            />
+            <figcaption>PRINTED HEEL CAGE</figcaption>
+          </figure>
+          <figure className="origin-object">
+            <img
+              src="/origin/solely-print.jpg"
+              loading="lazy"
+              alt="Fresh resin print of the Solely heel structure in a fabrication studio"
+            />
+            <figcaption>RESIN PRINT / PROCESS</figcaption>
+          </figure>
+        </div>
+
+        <a
+          className="solely-primary-link"
+          href="https://solelythesis.webflow.io/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span>SOLELY</span>
+          <strong>OPEN THE FULL THESIS</strong>
+          <ArrowIcon />
+        </a>
+      </section>
+
+      <section className="manifesto" id="practice" aria-labelledby="manifesto-title">
+        <p className="section-label">03 / PRACTICE</p>
         <h2 id="manifesto-title">
           More than an image.
           <br />
@@ -1028,7 +1239,7 @@ export default function Home() {
       <section className="project-archive" id="projects" aria-labelledby="projects-title">
         <div className="archive-head">
           <div>
-            <p className="section-label">02 / PROJECT INDEX</p>
+            <p className="section-label">04 / PROJECT INDEX</p>
             <h2 id="projects-title">Six years. One moving archive.</h2>
           </div>
           <div className="sort-control" aria-label="Sort project archive">
@@ -1114,23 +1325,29 @@ export default function Home() {
           <span>LY</span>
         </div>
         <div className="origin-content">
-          <p className="section-label">03 / THE ORIGIN</p>
+          <p className="section-label">05 / THE ORIGIN</p>
           <h2 id="origin-title">Before the campaigns, there was a printed shoe.</h2>
           <p>
-            The practice began with <em>Solely</em>, a 3D-printed sneaker thesis
-            developed with Autodesk and mentored by Nike designers, including
-            Errolson Hugh of ACRONYM. It established the pattern that still
-            drives the work: test the material, build the system, move the idea
-            into practice.
+            The practice began with <em>Solely</em>, a sustainable 3D-printed
+            sneaker thesis selected for development inside Autodesk&apos;s
+            Advanced Research Labs in Toronto and advised by Errolson Hugh of
+            ACRONYM alongside Nike designers. It established the pattern that
+            still drives the work: test the material, build the system, move the
+            idea into practice.
           </p>
-          <a href="https://solelythesis.webflow.io/" target="_blank" rel="noreferrer">
-            EXPLORE THE THESIS <ArrowIcon />
+          <a
+            className="origin-thesis-link"
+            href="https://solelythesis.webflow.io/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            OPEN SOLELY — FULL THESIS <ArrowIcon />
           </a>
         </div>
       </section>
 
       <section className="contact" id="contact">
-        <p className="section-label">04 / NEXT</p>
+        <p className="section-label">06 / NEXT</p>
         <p>Have a difficult creative-technology problem?</p>
         <a href="mailto:selviz@rendrd.com">
           LET&apos;S BUILD
