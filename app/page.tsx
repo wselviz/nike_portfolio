@@ -875,9 +875,9 @@ export default function Home() {
       if (!shoePresentation) return;
       const isMobile = window.innerWidth < 720;
       const isTablet = window.innerWidth < 1100;
-      const scale = isMobile ? 0.1 : isTablet ? 0.19 : 0.255;
-      const x = isMobile ? 0.35 : isTablet ? 1.6 : 2.35;
-      const y = isMobile ? 0.9 : isTablet ? 0.72 : 0.52;
+      const scale = isMobile ? 0.11 : isTablet ? 0.19 : 0.255;
+      const x = isMobile ? 0.52 : isTablet ? 1.6 : 2.35;
+      const y = isMobile ? 1.05 : isTablet ? 0.72 : 0.52;
       const z = isMobile ? 1.9 : 1.45;
       shoePresentation.scale.setScalar(scale);
       shoePresentation.position.set(x, y, z);
@@ -1405,10 +1405,8 @@ export default function Home() {
         <div className={`hero-model-readout ${shoeModelReady ? "is-ready" : ""}`}>
           <span>
             <i aria-hidden="true" />
-            {shoeModelReady ? "LIVE 3D OBJECT" : "LOADING 3D OBJECT"}
+            {shoeModelReady ? "INTERACTIVE 3D OBJECT" : "LOADING 3D OBJECT"}
           </span>
-          <strong>EVO / AIR MAX DAY</strong>
-          <small>TAP OBJECT TO ISOLATE / ALBEDO + NORMAL SCAN</small>
         </div>
         <button
           type="button"
@@ -1417,9 +1415,9 @@ export default function Home() {
             if (shoeModelReady) setShoeInspecting(true);
           }}
           disabled={!shoeModelReady}
-          aria-label="Open the Nike Air Max EVO interactive 3D viewer"
+          aria-label="Open the interactive 3D sneaker viewer"
         >
-          <span>CLICK / TAP TO INSPECT</span>
+          <span className="hero-shoe-cue" aria-hidden="true" />
         </button>
         <div className="hero-title-wrap">
           <p className="hero-number">
