@@ -1433,9 +1433,6 @@ export default function Home() {
           <span className="hero-shoe-cue" aria-hidden="true" />
         </button>
         <div className="hero-title-wrap">
-          <p className="hero-number">
-            {String(projects.length).padStart(2, "0")} / CONFIRMED
-          </p>
           <h1>
             THE WORK
             <br />

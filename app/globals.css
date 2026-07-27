@@ -618,14 +618,6 @@ button {
   margin-top: auto;
 }
 
-.hero-number {
-  margin: 0 0 0.7rem 0.45rem;
-  color: var(--volt);
-  font-family: var(--font-mono);
-  font-size: var(--type-label);
-  letter-spacing: 0.13em;
-}
-
 .hero h1 {
   max-width: 1300px;
   margin: 0;
