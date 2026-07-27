@@ -31,7 +31,7 @@ test("server-renders the Nike project universe", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>Will Selviz — Nike Project Universe<\/title>/i);
+  assert.match(html, /<title>Will Selviz \/ Nike Project Universe<\/title>/i);
   assert.match(html, /NIKE PROJECT UNIVERSE/);
   assert.match(html, /THE WORK/);
   assert.match(html, /Toronto Air Max 95/);

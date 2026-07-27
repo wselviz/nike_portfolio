@@ -44,7 +44,7 @@ const defaultProjects: Project[] = [
     status: "Confirmed",
     discipline: "CGI / 3D / VFX / social",
     summary:
-      "A fast-turnaround visual system for the store-opening activation—moving from pre-rollout CGI into social, installation, and Nike By You content.",
+      "I built the store-opening visual system from the first CGI rollout through social, installation, and Nike By You content.",
     role: "CGI, 3D, VFX, workflow development",
     deliverables: [
       "Pre-rollout CGI",
@@ -288,7 +288,7 @@ const defaultProjects: Project[] = [
     status: "Confirmed",
     discipline: "Global campaign / 3D / live experience",
     summary:
-      "Selected to represent Canada in Nike's global Air Max Day campaign, Bring the Future to Light—combining a featured artist story, 3D motion, a live broadcast, and a boundary-pushing local panel.",
+      "Nike selected me to represent Canada in the global Bring the Future to Light campaign. I created 3D motion, helped produce the live broadcast, and curated the local panel.",
     role: "Canada campaign representative, featured artist, 3D animation, panel curation, co-production",
     deliverables: [
       "Bring the Future to Light",
@@ -406,32 +406,32 @@ const defaultProjects: Project[] = [
 const roleFitSignals = [
   {
     label: "GENAI SYSTEMS",
-    detail: "Custom node graphs, model evaluation, and production-ready workflows",
+    detail: "I build custom node graphs, test models on real briefs, and document what works",
     href: "#practice",
   },
   {
     label: "2D / 3D FOOTWEAR",
-    detail: "Nine years across design, animation, VFX, and footwear visualization",
+    detail: "Nine years working across footwear design, 3D, VFX, and visualization",
     href: "#origin",
   },
   {
     label: "PHYSICAL PROTOTYPING",
-    detail: "Additive manufacturing and sustainable 3D-printed sneaker R&D",
+    detail: "I developed a sustainable 3D-printed sneaker inside Autodesk's Toronto research lab",
     href: "#origin-path",
   },
   {
     label: "SPATIAL + REAL-TIME",
-    detail: "AR, VR, WebXR, Unity, Unreal, scanning, and motion capture",
+    detail: "AR, VR, Unity, Unreal, scanning, and motion capture used on live work",
     href: "#project-ofsaa",
   },
   {
-    label: "CREATIVE → ENGINEERING",
-    detail: "Translating design needs into scalable technical systems",
+    label: "CREATIVE + ENGINEERING",
+    detail: "I turn a design need into a technical brief, then build with engineers",
     href: "#project-am95",
   },
   {
     label: "NIKE CONTEXT",
-    detail: "Campaign craft, footwear fluency, and trusted delivery since 2020",
+    detail: "Nike campaign work across Canada, Dubai, and WHQ since 2020",
     href: "#project-amd",
   },
 ] as const;
@@ -556,26 +556,9 @@ function ProjectDialog({
                 {project.gallery.map((item, index) => (
                   <figure
                     className={`gallery-item is-${item.aspect}`}
-                    key={`${item.src}-${index}`}
+                    key={item.id ?? `${item.src}-${index}`}
                   >
-                    <div className="gallery-frame">
-                      {item.type === "video" ? (
-                        <video
-                          src={item.src}
-                          poster={item.poster}
-                          controls
-                          playsInline
-                          preload="metadata"
-                          aria-label={`${project.title} — ${item.label}`}
-                        />
-                      ) : (
-                        <img
-                          src={item.src}
-                          loading="lazy"
-                          alt={`${project.title} — ${item.label}`}
-                        />
-                      )}
-                    </div>
+                    <GalleryMedia item={item} projectTitle={project.title} />
                     <figcaption>
                       <span>
                         {String(index + 1).padStart(2, "0")} / {item.label}
@@ -594,6 +577,88 @@ function ProjectDialog({
           </div>
         </div>
       </section>
+    </div>
+  );
+}
+
+function GalleryMedia({
+  item,
+  projectTitle,
+}: {
+  item: MediaItem;
+  projectTitle: string;
+}) {
+  const frameRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const fallbackRatio =
+    item.aspect === "portrait" ? "4 / 5" : item.aspect === "square" ? "1 / 1" : "16 / 9";
+  const [ratio, setRatio] = useState(fallbackRatio);
+
+  const openFullscreen = () => {
+    const frame = frameRef.current;
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (frame?.requestFullscreen) {
+      void frame
+        .requestFullscreen()
+        .then(() => video.play().catch(() => undefined))
+        .catch(() => undefined);
+      return;
+    }
+
+    const safariVideo = video as HTMLVideoElement & {
+      webkitEnterFullscreen?: () => void;
+    };
+    safariVideo.webkitEnterFullscreen?.();
+  };
+
+  return (
+    <div
+      ref={frameRef}
+      className="gallery-frame"
+      style={{ "--media-ratio": ratio } as React.CSSProperties}
+    >
+      {item.type === "video" ? (
+        <>
+          <video
+            ref={videoRef}
+            src={item.src}
+            poster={item.poster}
+            controls
+            playsInline
+            preload="metadata"
+            onLoadedMetadata={(event) => {
+              const video = event.currentTarget;
+              if (video.videoWidth && video.videoHeight) {
+                setRatio(`${video.videoWidth} / ${video.videoHeight}`);
+              }
+            }}
+            aria-label={`${projectTitle}: ${item.label}`}
+          />
+          <button
+            type="button"
+            className="video-fullscreen"
+            onClick={openFullscreen}
+            aria-label={`View ${item.label} fullscreen`}
+          >
+            FULLSCREEN
+            <span aria-hidden="true">↗</span>
+          </button>
+        </>
+      ) : (
+        <img
+          src={item.src}
+          loading="lazy"
+          onLoad={(event) => {
+            const image = event.currentTarget;
+            if (image.naturalWidth && image.naturalHeight) {
+              setRatio(`${image.naturalWidth} / ${image.naturalHeight}`);
+            }
+          }}
+          alt={`${projectTitle}: ${item.label}`}
+        />
+      )}
     </div>
   );
 }
@@ -633,7 +698,7 @@ export default function Home() {
     if (sortMode === "impact") {
       return [...projects].sort((a, b) => a.impactRank - b.impactRank);
     }
-    return projects;
+    return [...projects].sort((a, b) => Number(b.year) - Number(a.year));
   }, [projects, sortMode]);
 
   useEffect(() => {
@@ -885,7 +950,7 @@ export default function Home() {
     setSortMode(mode);
     const next =
       mode === "latest"
-        ? projects[0]
+        ? [...projects].sort((a, b) => Number(b.year) - Number(a.year))[0]
         : [...projects].sort((a, b) => a.impactRank - b.impactRank)[0];
     if (next) setActiveId(next.id);
   };
@@ -899,12 +964,12 @@ export default function Home() {
       <canvas ref={canvasRef} className="webgl-stage" aria-hidden="true" />
       <div className="noise" aria-hidden="true" />
       <div className="ascii-field" aria-hidden="true">
-        <span>░▒▓ WS_SYS / 3D / VFX / AI / 2020—25 ▓▒░</span>
+        <span>░▒▓ WS_SYS / 3D / VFX / AI / 2020-25 ▓▒░</span>
         <span>010101 :: R&amp;D → IMPLEMENTATION :: 101010</span>
       </div>
 
       <header className="site-header">
-        <a className="wordmark" href="#top" aria-label="Will Selviz — back to top">
+        <a className="wordmark" href="#top" aria-label="Will Selviz: back to top">
           W/S<span>®</span>
         </a>
         <p>AI CREATIVE TECHNOLOGIST</p>
@@ -919,7 +984,7 @@ export default function Home() {
       <section className="hero" id="top">
         <div className="hero-kicker">
           <span>NIKE PROJECT UNIVERSE</span>
-          <span>2020—2025</span>
+          <span>2020-2025</span>
         </div>
         <div className="hero-title-wrap">
           <p className="hero-number">
@@ -933,23 +998,23 @@ export default function Home() {
         </div>
         <div className="hero-lower">
           <p>
-            Will Selviz builds the pipelines between 3D, VFX, AI, and emerging
-            tools—turning R&amp;D into repeatable production.
+            I build 3D, VFX, and generative AI workflows that creative teams can
+            actually use, from the first test to the final campaign.
           </p>
           <a href="#projects" className="round-link" aria-label="Enter the project timeline">
             <span>ENTER</span>
             <span>THE TIMELINE ↓</span>
           </a>
         </div>
-        <div className="hero-stats" aria-label="Archive statistics">
+        <div className="hero-stats" aria-label="Hiring highlights">
           <span>
-            <b>9.2</b> GB SOURCE
+            <b>9+</b> YEARS BUILDING CREATIVE SYSTEMS
           </span>
           <span>
-            <b>31</b> VISUAL ASSETS
+            <b>14</b> AI + VFX WORKFLOWS OPTIMIZED
           </span>
           <span>
-            <b>03</b> REGIONS
+            <b>6+</b> YEARS DELIVERING NIKE WORK
           </span>
         </div>
       </section>
@@ -958,14 +1023,14 @@ export default function Home() {
         <div className="role-fit-copy">
           <p className="section-label">01 / WHY WILL × NIKE</p>
           <h2 id="role-fit-title">
-            BUILT FOR THE
+            I DESIGN THE WORK.
             <br />
-            <span>GENERATIVE STUDIO.</span>
+            <span>I BUILD THE SYSTEM.</span>
           </h2>
           <p>
-            Nike is looking for a designer who can build tools, connect creative
-            and engineering teams, and move experimental AI into real footwear
-            workflows. That intersection has been my practice for nine years.
+            I have spent nine years working across footwear, 3D, VFX, and AI. I
+            can sit with designers, turn a creative problem into a technical
+            brief, build the workflow, and help the team use it.
           </p>
           <a
             className="role-link"
@@ -1025,10 +1090,10 @@ export default function Home() {
           </h2>
           <p>
             Before the campaigns, Autodesk selected me to develop{" "}
-            <em>Solely</em>—a sustainable 3D-printed sneaker thesis—inside its
-            Advanced Research Labs in Toronto. The work turned sketches, scans,
-            fabrication, and material experiments into a method I still use:
-            explore the impossible, build the pipeline, then make it real.
+            <em>Solely</em>, a sustainable 3D-printed sneaker thesis, inside its
+            Advanced Research Labs in Toronto. I worked from sketches and scans
+            through material tests and physical prototypes. When the tools were
+            not enough, I built the process I needed.
           </p>
           <div className="origin-exposure-meta" aria-label="Origin archive details">
             <span>AUTODESK RESEARCH / THESIS / PROTOTYPES</span>
@@ -1112,8 +1177,8 @@ export default function Home() {
             <span>FOOTWEAR PRACTICE.</span>
           </h2>
           <p>
-            The recap is the connective tissue: sustainable footwear research,
-            self-initiated Nike concepts, and the campaign work that followed.
+            This recap shows the path from Solely, to self-initiated Nike
+            concepts, to the campaign work that got me hired.
           </p>
         </div>
 
@@ -1151,9 +1216,9 @@ export default function Home() {
             <span>02</span>
             <h3>SPEC WORK BECAME A LAB</h3>
             <p>
-              I kept designing Nike sneakers and making self-initiated ads—not
-              as mock campaigns, but as repeatable experiments in 3D, materials,
-              motion, scanning, and image-making.
+              I kept designing Nike sneakers and making self-initiated ads. Each
+              one was a working test for 3D, materials, motion, scanning, and
+              image-making.
             </p>
           </article>
           <article>
@@ -1219,19 +1284,20 @@ export default function Home() {
       <section className="manifesto" id="practice" aria-labelledby="manifesto-title">
         <p className="section-label">03 / PRACTICE</p>
         <h2 id="manifesto-title">
-          More than an image.
+          I build the work.
           <br />
-          <span>A system that makes the image possible.</span>
+          <span>And the way to make it.</span>
         </h2>
         <div className="manifesto-copy">
           <p>
-            My job is to create pipelines and workflows that let teams do more
-            with what they already have—then explore the tools, materials, and
-            technologies that can take the work somewhere new.
+            I connect the tools teams already use with 3D, VFX, and generative
+            AI. Then I test the workflow on real creative work, document the
+            decisions, and make it usable by the team.
           </p>
           <p>
-            The goal is to move past hype: find the real implementation, make
-            it repeatable, and carry an idea from experiment to launch.
+            I do not chase tools for the sake of novelty. I find where they
+            improve the work, prove it in production, and know when they do not
+            belong.
           </p>
         </div>
       </section>
@@ -1341,7 +1407,7 @@ export default function Home() {
             target="_blank"
             rel="noreferrer"
           >
-            OPEN SOLELY — FULL THESIS <ArrowIcon />
+            OPEN SOLELY / FULL THESIS <ArrowIcon />
           </a>
         </div>
       </section>

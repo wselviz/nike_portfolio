@@ -55,7 +55,7 @@ export async function getPortfolioManifest(request: Request): Promise<PortfolioM
         SET manifest_json = ?1, updated_at = CURRENT_TIMESTAMP, updated_by = ?2
         WHERE id = ?3`,
     )
-      .bind(JSON.stringify(upgraded), "system-migration-v2", 1)
+      .bind(JSON.stringify(upgraded), "system-migration-v3", 1)
       .run();
     return upgraded;
   }
@@ -85,18 +85,29 @@ function upgradePortfolioManifest(
   stored: PortfolioManifest,
   defaults: PortfolioManifest,
 ): PortfolioManifest {
-  const defaultAirMax = defaults.projects.find((project) => project.id === "amd");
+  const defaultProjects = new Map(
+    defaults.projects.map((project) => [project.id, project]),
+  );
   const projects = stored.projects.map((project) => {
-    if (project.id !== "amd" || !defaultAirMax) return project;
+    const defaultProject = defaultProjects.get(project.id);
+    if (!defaultProject) return project;
+
+    if (project.id !== "amd") {
+      return {
+        ...project,
+        summary: defaultProject.summary,
+      };
+    }
+
     return {
       ...project,
-      year: defaultAirMax.year,
-      discipline: defaultAirMax.discipline,
-      summary: defaultAirMax.summary,
-      role: defaultAirMax.role,
-      deliverables: defaultAirMax.deliverables,
+      year: defaultProject.year,
+      discipline: defaultProject.discipline,
+      summary: defaultProject.summary,
+      role: defaultProject.role,
+      deliverables: defaultProject.deliverables,
     };
-  });
+  }).sort((a, b) => Number(b.year) - Number(a.year));
 
   return normalizeManifest({
     ...stored,

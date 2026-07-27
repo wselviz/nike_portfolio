@@ -23,18 +23,20 @@ if (start < 0 || end < 2) {
 const literal = source.slice(start, end);
 const projects = Function(`"use strict"; return (${literal});`)();
 const manifest = {
-  version: 2,
-  projects: projects.map((project, projectIndex) => ({
-    ...project,
-    enabled: project.enabled !== false,
-    coverType: project.coverType ?? "video",
-    gallery: (project.gallery ?? []).map((item, mediaIndex) => ({
-      ...item,
-      id: item.id ?? `${project.id}-${mediaIndex + 1}`,
-      enabled: item.enabled !== false,
-    })),
-    impactRank: project.impactRank ?? projectIndex + 1,
-  })),
+  version: 3,
+  projects: projects
+    .map((project, projectIndex) => ({
+      ...project,
+      enabled: project.enabled !== false,
+      coverType: project.coverType ?? "video",
+      gallery: (project.gallery ?? []).map((item, mediaIndex) => ({
+        ...item,
+        id: item.id ?? `${project.id}-${mediaIndex + 1}`,
+        enabled: item.enabled !== false,
+      })),
+      impactRank: project.impactRank ?? projectIndex + 1,
+    }))
+    .sort((a, b) => Number(b.year) - Number(a.year)),
 };
 
 await writeFile(outputPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");

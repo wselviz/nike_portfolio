@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  type DragEvent,
   useCallback,
   useEffect,
   useMemo,
@@ -111,6 +112,15 @@ export default function StudioClient({ user, signOutPath }: StudioProps) {
       ...project,
       gallery: moveItem(project.gallery, mediaId, direction),
     }));
+  };
+
+  const reorderMedia = (projectId: string, sourceId: string, targetId: string) => {
+    if (sourceId === targetId) return;
+    updateProject(projectId, (project) => ({
+      ...project,
+      gallery: placeItemAt(project.gallery, sourceId, targetId),
+    }));
+    setMessage("Media order changed. Save to publish the new mosaic.");
   };
 
   const saveManifest = async () => {
@@ -368,7 +378,7 @@ export default function StudioClient({ user, signOutPath }: StudioProps) {
               >
                 <span>＋</span>
                 <strong>DROP MEDIA FROM YOUR DESKTOP</strong>
-                <small>Images, GIFs, MP4, WebM, MOV — up to 500 MB each</small>
+                <small>Images, GIFs, MP4, WebM, MOV / up to 500 MB each</small>
               </button>
               <input
                 ref={fileInputRef}
@@ -383,7 +393,7 @@ export default function StudioClient({ user, signOutPath }: StudioProps) {
               />
 
               <div className="media-toolbar">
-                <span>CAMPAIGN MEDIA</span>
+                <span>CAMPAIGN MEDIA / DRAG THE HANDLE TO REORDER</span>
                 <b>
                   {selectedProject.gallery.filter((item) => item.enabled).length} LIVE /{" "}
                   {selectedProject.gallery.length} TOTAL
@@ -408,6 +418,9 @@ export default function StudioClient({ user, signOutPath }: StudioProps) {
                     }
                     onMove={(direction) =>
                       moveMedia(selectedProject.id, item.id, direction)
+                    }
+                    onReorder={(sourceId, targetId) =>
+                      reorderMedia(selectedProject.id, sourceId, targetId)
                     }
                     onSetCover={() =>
                       updateProject(selectedProject.id, (project) => ({
@@ -438,6 +451,7 @@ function MediaEditor({
   count,
   onChange,
   onMove,
+  onReorder,
   onSetCover,
   onPoster,
 }: {
@@ -447,14 +461,64 @@ function MediaEditor({
   count: number;
   onChange: (item: PortfolioMedia) => void;
   onMove: (direction: -1 | 1) => void;
+  onReorder: (sourceId: string, targetId: string) => void;
   onSetCover: () => void;
   onPoster: (file: File) => void;
 }) {
   const posterInput = useRef<HTMLInputElement>(null);
   const isCover = project.media === item.src;
+  const [dropReady, setDropReady] = useState(false);
+
+  const startReorder = (event: DragEvent<HTMLDivElement>) => {
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", item.id);
+  };
 
   return (
-    <article className={`media-card ${item.enabled ? "" : "is-hidden"}`}>
+    <article
+      className={`media-card ${item.enabled ? "" : "is-hidden"} ${
+        dropReady ? "is-drop-target" : ""
+      }`}
+      onDragOver={(event) => {
+        if (!event.dataTransfer.types.includes("text/plain")) return;
+        event.preventDefault();
+        event.dataTransfer.dropEffect = "move";
+        setDropReady(true);
+      }}
+      onDragLeave={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+          setDropReady(false);
+        }
+      }}
+      onDrop={(event) => {
+        event.preventDefault();
+        setDropReady(false);
+        const sourceId = event.dataTransfer.getData("text/plain");
+        if (sourceId) onReorder(sourceId, item.id);
+      }}
+    >
+      <div
+        className="media-drag-handle"
+        draggable
+        onDragStart={startReorder}
+        onDragEnd={() => setDropReady(false)}
+        role="button"
+        tabIndex={0}
+        aria-label={`Drag ${item.label} to change its position`}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowUp" && index > 0) {
+            event.preventDefault();
+            onMove(-1);
+          }
+          if (event.key === "ArrowDown" && index < count - 1) {
+            event.preventDefault();
+            onMove(1);
+          }
+        }}
+      >
+        <span aria-hidden="true">⠿</span>
+        DRAG TO REORDER
+      </div>
       <div className={`media-preview is-${item.aspect}`}>
         {item.type === "video" ? (
           <video
@@ -596,6 +660,20 @@ function moveItem<T extends { id: string }>(
   const next = [...items];
   const [item] = next.splice(from, 1);
   next.splice(to, 0, item);
+  return next;
+}
+
+function placeItemAt<T extends { id: string }>(
+  items: T[],
+  sourceId: string,
+  targetId: string,
+) {
+  const from = items.findIndex((item) => item.id === sourceId);
+  const target = items.findIndex((item) => item.id === targetId);
+  if (from < 0 || target < 0 || from === target) return items;
+  const next = [...items];
+  const [item] = next.splice(from, 1);
+  next.splice(target, 0, item);
   return next;
 }
 

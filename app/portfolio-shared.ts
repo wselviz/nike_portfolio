@@ -38,7 +38,7 @@ export type PortfolioManifest = {
   updatedBy?: string;
 };
 
-export const CURRENT_PORTFOLIO_VERSION = 2;
+export const CURRENT_PORTFOLIO_VERSION = 3;
 
 const MAX_PROJECTS = 50;
 const MAX_MEDIA_PER_PROJECT = 200;
