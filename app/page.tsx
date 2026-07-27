@@ -36,6 +36,35 @@ type Project = {
   enabled?: boolean;
 };
 
+const PUBLIC_BASE_URL = import.meta.env.BASE_URL ?? "/";
+const IS_PUBLIC_STATIC_BUILD =
+  import.meta.env.VITE_PUBLIC_PORTFOLIO === "true";
+
+function assetUrl(path?: string) {
+  if (!path) return path;
+  if (
+    PUBLIC_BASE_URL === "/" ||
+    /^(?:https?:|data:|blob:)/i.test(path) ||
+    path.startsWith("/api/")
+  ) {
+    return path;
+  }
+  return `${PUBLIC_BASE_URL.replace(/\/$/, "")}/${path.replace(/^\//, "")}`;
+}
+
+function resolveProjectAssets(project: Project): Project {
+  return {
+    ...project,
+    media: assetUrl(project.media),
+    poster: assetUrl(project.poster),
+    gallery: project.gallery?.map((item) => ({
+      ...item,
+      src: assetUrl(item.src) ?? item.src,
+      poster: assetUrl(item.poster),
+    })),
+  };
+}
+
 const defaultProjects: Project[] = [
   {
     id: "tec",
@@ -670,7 +699,9 @@ export default function Home() {
   const shoeInspectingRef = useRef(false);
   const shoeViewResetRef = useRef(0);
   const inspectCloseRef = useRef<HTMLButtonElement>(null);
-  const [projects, setProjects] = useState<Project[]>(defaultProjects);
+  const [projects, setProjects] = useState<Project[]>(() =>
+    defaultProjects.map(resolveProjectAssets),
+  );
   const [sortMode, setSortMode] = useState<"latest" | "impact">("latest");
   const [activeId, setActiveId] = useState(defaultProjects[0].id);
   const [selected, setSelected] = useState<Project | null>(null);
@@ -679,6 +710,7 @@ export default function Home() {
   const [shoeInspecting, setShoeInspecting] = useState(false);
 
   useEffect(() => {
+    if (IS_PUBLIC_STATIC_BUILD) return;
     const controller = new AbortController();
     void fetch("/api/portfolio", {
       cache: "no-store",
@@ -691,7 +723,7 @@ export default function Home() {
       .then((payload) => {
         const next = payload.manifest?.projects;
         if (!next?.length) return;
-        setProjects(next);
+        setProjects(next.map(resolveProjectAssets));
         setActiveId(next[0].id);
       })
       .catch((error: unknown) => {
@@ -871,9 +903,9 @@ export default function Home() {
     const textureLoader = new THREE.TextureLoader();
     const fbxLoader = new FBXLoader();
     void Promise.all([
-      fbxLoader.loadAsync("/models/evo-ar/evo-ar.fbx"),
-      textureLoader.loadAsync("/models/evo-ar/evo-albedo.jpg"),
-      textureLoader.loadAsync("/models/evo-ar/evo-normal.jpg"),
+      fbxLoader.loadAsync(assetUrl("/models/evo-ar/evo-ar.fbx") ?? ""),
+      textureLoader.loadAsync(assetUrl("/models/evo-ar/evo-albedo.jpg") ?? ""),
+      textureLoader.loadAsync(assetUrl("/models/evo-ar/evo-normal.jpg") ?? ""),
     ])
       .then(([fbx, albedo, normal]) => {
         if (shoeLoadCancelled) {
@@ -1505,7 +1537,7 @@ export default function Home() {
         <div className="origin-collage" aria-label="A collage of Will Selviz's early thesis work">
           <figure className="origin-tile origin-tile-board">
             <img
-              src="/origin/thesis-board.webp"
+              src={assetUrl("/origin/thesis-board.webp")}
               loading="lazy"
               alt="Solely thesis board with sneaker sketches, renders, and prototypes"
             />
@@ -1513,7 +1545,7 @@ export default function Home() {
           </figure>
           <figure className="origin-tile origin-tile-motion">
             <img
-              src="/origin/motion-study.webp"
+              src={assetUrl("/origin/motion-study.webp")}
               loading="lazy"
               alt="Digital particle study of a sneaker form"
             />
@@ -1521,7 +1553,7 @@ export default function Home() {
           </figure>
           <figure className="origin-tile origin-tile-studio">
             <img
-              src="/origin/studio-01.webp"
+              src={assetUrl("/origin/studio-01.webp")}
               loading="lazy"
               alt="Will Selviz working with a desktop fabrication machine"
             />
@@ -1529,7 +1561,7 @@ export default function Home() {
           </figure>
           <figure className="origin-tile origin-tile-sole">
             <img
-              src="/origin/studio-02.webp"
+              src={assetUrl("/origin/studio-02.webp")}
               loading="lazy"
               alt="Hand holding a 3D-printed sneaker sole prototype"
             />
@@ -1538,8 +1570,8 @@ export default function Home() {
           <figure className="origin-tile origin-tile-upcycle">
             <video
               data-auto-video
-              src="/origin/upcycle-loop.mp4"
-              poster="/origin/upcycle-poster.webp"
+              src={assetUrl("/origin/upcycle-loop.mp4")}
+              poster={assetUrl("/origin/upcycle-poster.webp")}
               autoPlay
               muted
               loop
@@ -1552,8 +1584,8 @@ export default function Home() {
           <figure className="origin-tile origin-tile-scan">
             <video
               data-auto-video
-              src="/origin/scan-loop.mp4"
-              poster="/origin/scan-poster.webp"
+              src={assetUrl("/origin/scan-loop.mp4")}
+              poster={assetUrl("/origin/scan-poster.webp")}
               autoPlay
               muted
               loop
@@ -1586,8 +1618,8 @@ export default function Home() {
         <figure className="origin-recap">
           <video
             data-auto-video
-            src="/origin/nike-origin-recap.mp4"
-            poster="/origin/thesis-board.webp"
+            src={assetUrl("/origin/nike-origin-recap.mp4")}
+            poster={assetUrl("/origin/thesis-board.webp")}
             autoPlay
             muted
             loop
@@ -1646,8 +1678,8 @@ export default function Home() {
         <div className="origin-object-grid" aria-label="Solely 3D-printed sneaker details">
           <figure className="origin-object origin-object-main">
             <video
-              src="/origin/solely-animation-recap.mp4"
-              poster="/origin/solely-side.jpg"
+              src={assetUrl("/origin/solely-animation-recap.mp4")}
+              poster={assetUrl("/origin/solely-side.jpg")}
               controls
               muted
               loop
@@ -1660,7 +1692,7 @@ export default function Home() {
           </figure>
           <figure className="origin-object">
             <img
-              src="/origin/solely-cage.jpg"
+              src={assetUrl("/origin/solely-cage.jpg")}
               loading="lazy"
               alt="Close-up of the Solely sneaker's 3D-printed heel cage"
             />
@@ -1668,7 +1700,7 @@ export default function Home() {
           </figure>
           <figure className="origin-object">
             <img
-              src="/origin/solely-print.jpg"
+              src={assetUrl("/origin/solely-print.jpg")}
               loading="lazy"
               alt="Fresh resin print of the Solely heel structure in a fabrication studio"
             />
