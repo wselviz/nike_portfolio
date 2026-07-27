@@ -1,0 +1,110 @@
+{
+  "capturedAt": "2026-07-27T03:09:53.508Z",
+  "projects": [
+    {
+      "id": "tec",
+      "title": "Toronto Eaton Centre",
+      "gallery": [
+        { "type": "video", "src": "/gallery/tec/r1-v5.mp4", "poster": "/gallery/tec/r1-v5-poster.webp", "label": "Opening Film / R1 V5", "aspect": "portrait", "enabled": false },
+        { "type": "video", "src": "/gallery/tec/nike-by-you.mp4", "poster": "/gallery/tec/nike-by-you-poster.webp", "label": "Nike By You", "aspect": "portrait", "enabled": true },
+        { "type": "video", "src": "/gallery/tec/nike-playground.mp4", "poster": "/gallery/tec/nike-playground-poster.webp", "label": "Nike Playground", "aspect": "portrait", "enabled": true },
+        { "type": "video", "src": "/gallery/tec/reel-athletes.mp4", "poster": "/gallery/tec/reel-athletes-poster.webp", "label": "Social Reel / Athletes", "aspect": "portrait", "enabled": false },
+        { "type": "video", "src": "/gallery/tec/reel-no-athletes.mp4", "poster": "/gallery/tec/reel-no-athletes-poster.webp", "label": "Social Reel / No Athletes", "aspect": "portrait", "enabled": false }
+      ]
+    },
+    {
+      "id": "bata",
+      "title": "Air Max 95 × Bata",
+      "gallery": [
+        { "type": "video", "src": "/gallery/bata/main-reel.mp4", "poster": "/gallery/bata/main-reel-poster.webp", "label": "Main Museum Reel", "aspect": "portrait", "enabled": true },
+        { "type": "video", "src": "/gallery/bata/teaser-1.mp4", "poster": "/gallery/bata/teaser-1-poster.webp", "label": "Teaser Film / 01", "aspect": "portrait", "enabled": false },
+        { "type": "video", "src": "/gallery/bata/teaser-2.mp4", "poster": "/gallery/bata/teaser-2-poster.webp", "label": "Teaser Film / 02", "aspect": "portrait", "enabled": false },
+        { "type": "image", "src": "/api/portfolio/media/portfolio/bata/5c4d88ad-5594-4820-b8a6-fded3956f463-BSM_3---9x16.png", "label": "BSM 3 / 9x16", "aspect": "portrait", "enabled": true },
+        { "type": "image", "src": "/api/portfolio/media/portfolio/bata/db83b021-e96b-4228-8b6a-8468069a0728-BSM_1---9x16.png", "label": "BSM 1 / 9x16", "aspect": "portrait", "enabled": true },
+        { "type": "image", "src": "/api/portfolio/media/portfolio/bata/a38eb7d5-bfd9-45bb-a128-58b6b099df79-BSM_2---9x16.png", "label": "BSM 2 / 9x16", "aspect": "portrait", "enabled": true }
+      ]
+    },
+    {
+      "id": "am95",
+      "title": "Toronto Air Max 95",
+      "gallery": [
+        { "type": "video", "src": "/gallery/am95/billboard.mp4", "poster": "/gallery/am95/billboard-poster.webp", "label": "DOOH Billboard", "aspect": "landscape", "enabled": true },
+        { "type": "image", "src": "/gallery/am95/cne-render.webp", "label": "CNE Campaign Render", "aspect": "portrait", "enabled": true },
+        { "type": "video", "src": "/gallery/am95/revised-master.mp4", "poster": "/gallery/am95/revised-master-poster.webp", "label": "Campaign Master", "aspect": "portrait", "enabled": true },
+        { "type": "video", "src": "/gallery/am95/kensington-4x5.mp4", "poster": "/gallery/am95/kensington-4x5-poster.webp", "label": "Kensington / 4:5", "aspect": "portrait", "enabled": true },
+        { "type": "video", "src": "/gallery/am95/kensington-9x16.mp4", "poster": "/gallery/am95/kensington-9x16-poster.webp", "label": "Kensington / 9:16", "aspect": "portrait", "enabled": false },
+        { "type": "video", "src": "/api/portfolio/media/portfolio/am95/d855a734-5788-4bd5-82aa-9e7756d964b8-e0d75e2af65641708d3753af631612b6.mov", "label": "AM95 Motion Test", "aspect": "portrait", "enabled": true },
+        { "type": "image", "src": "/api/portfolio/media/portfolio/am95/757f434c-2734-45ed-b224-52dccab7b31f-Nike_Toronto_AM95.png", "label": "Nike Toronto AM95", "aspect": "portrait", "enabled": true },
+        { "type": "image", "src": "/api/portfolio/media/portfolio/am95/7fa5010c-430d-46d0-93ba-c836bd241c22-WSE_2593_000002_00000_00000.png", "label": "Campaign Still", "aspect": "portrait", "enabled": true },
+        { "type": "video", "src": "/api/portfolio/media/portfolio/am95/6eeda85d-b427-45a1-baee-da27b7d75e48-AGO.mp4", "label": "AGO", "aspect": "portrait", "enabled": true },
+        { "type": "image", "src": "/api/portfolio/media/portfolio/am95/e03be6c3-de89-4c59-899a-86518e4b3ddb-SCARB_PNG.png", "label": "SCARB PNG", "aspect": "portrait", "enabled": false },
+        { "type": "image", "src": "/api/portfolio/media/portfolio/am95/2adbf996-5e71-4ffa-b61a-b8ce8ccc3a03-SCARB_SURREAL.png", "label": "SCARB SURREAL", "aspect": "portrait", "enabled": true },
+        { "type": "video", "src": "/api/portfolio/media/portfolio/am95/0aa55ae9-4a82-4417-9229-f5d04ab11128-IMG_0560.mov", "label": "IMG 0560", "aspect": "portrait", "enabled": true }
+      ]
+    },
+    {
+      "id": "amd",
+      "title": "Air Max Day Worldwide",
+      "gallery": [
+        { "type": "video", "src": "/api/portfolio/media/portfolio/amd/72a2ca49-3179-47fb-b279-7f7bb2ee0523-nike_1.mp4", "label": "Nike 1 / Campaign Recap", "aspect": "portrait", "enabled": true },
+        { "type": "image", "src": "/gallery/amd/cn-tower-marker.webp", "label": "CN Tower AR Marker", "aspect": "square", "enabled": true },
+        { "type": "video", "src": "/gallery/amd/evo-reel.mp4", "poster": "/gallery/amd/evo-reel-poster.webp", "label": "Air Max EVO Reel", "aspect": "portrait", "enabled": true },
+        { "type": "image", "src": "/api/portfolio/media/portfolio/amd/9e3c4675-aa7e-492d-a666-2064545454d6-SP21_NSW_Air_NA_Will_AM97_0212.jpg", "label": "Air Max 97 Portrait / 0212", "aspect": "portrait", "enabled": true },
+        { "type": "image", "src": "/api/portfolio/media/portfolio/amd/cb6ea0ff-d47f-47a0-b72e-6b3aa4028cc0-Billboard.png", "label": "Billboard", "aspect": "portrait", "enabled": true },
+        { "type": "video", "src": "/gallery/amd/giphy-loop.mp4", "poster": "/gallery/amd/giphy-loop-poster.webp", "label": "Air Max Day / GIPHY Loop", "aspect": "landscape", "enabled": false },
+        { "type": "video", "src": "/api/portfolio/media/portfolio/amd/0ec9ad51-a65f-46b3-af1f-8f09d04af367-Conveyor_Loop.mp4", "label": "Conveyor Loop", "aspect": "portrait", "enabled": false },
+        { "type": "video", "src": "/api/portfolio/media/portfolio/amd/a8f18f78-d96c-40e7-86df-098341b1093c-CNTower_Outro.mp4", "label": "CN Tower Outro", "aspect": "portrait", "enabled": true },
+        { "type": "video", "src": "/api/portfolio/media/portfolio/amd/d9f97588-d1d9-4085-9c79-d218869598d4-CNTower_Intro.mp4", "label": "CN Tower Intro", "aspect": "portrait", "enabled": true },
+        { "type": "video", "src": "/api/portfolio/media/portfolio/amd/72796c5a-1b14-4c55-8a74-f2edda027ab8-Conveyor_Loop_1.mp4", "label": "Conveyor Loop / 01", "aspect": "portrait", "enabled": true },
+        { "type": "video", "src": "/api/portfolio/media/portfolio/amd/9fc27f99-e78d-4912-9f33-7feea40a7876-AMDWW_Background.mp4", "label": "AMD Worldwide Background", "aspect": "portrait", "enabled": true },
+        { "type": "video", "src": "/api/portfolio/media/portfolio/amd/7c7a4632-187f-4f16-9edb-36e63b7dc7bc-CNTower_Outro_1.mp4", "label": "CN Tower Outro / 01", "aspect": "portrait", "enabled": true },
+        { "type": "image", "src": "/api/portfolio/media/portfolio/amd/98652f09-e9c0-40d2-b491-39fe8dd9b9d4-SP21_NSW_Air_NA_Will_vapormaxEVO_0719.jpg", "label": "Vapormax EVO Portrait / 0719", "aspect": "portrait", "enabled": true },
+        { "type": "image", "src": "/api/portfolio/media/portfolio/amd/d037908b-0649-475a-b845-57cd83e0b10e-SP21_NSW_Air_NA_Will_AM97_0075.jpg", "label": "Air Max 97 Portrait / 0075", "aspect": "portrait", "enabled": false },
+        { "type": "image", "src": "/api/portfolio/media/portfolio/amd/bbe0565e-2314-4e36-9e85-bfff780a34cb-SP21_NSW_Air_NA_Will_AM97_0098.jpg", "label": "Air Max 97 Portrait / 0098", "aspect": "portrait", "enabled": true }
+      ]
+    },
+    {
+      "id": "dubai",
+      "title": "Cactus Jack × Fragment",
+      "gallery": [
+        { "type": "video", "src": "/gallery/dubai/logo-version.mp4", "poster": "/gallery/dubai/logo-version-poster.webp", "label": "Regional Launch / Branded", "aspect": "portrait", "enabled": true },
+        { "type": "video", "src": "/gallery/dubai/no-logo-version.mp4", "poster": "/gallery/dubai/no-logo-version-poster.webp", "label": "Regional Launch / No Logo", "aspect": "portrait", "enabled": false }
+      ]
+    },
+    {
+      "id": "kuwait",
+      "title": "Air Max Day Kuwait",
+      "gallery": [
+        { "type": "video", "src": "/gallery/kuwait/campaign-film.mp4", "poster": "/gallery/kuwait/campaign-film-poster.webp", "label": "Air Max Day Campaign Film", "aspect": "portrait", "enabled": true },
+        { "type": "image", "src": "/gallery/kuwait/conveyor-frame.webp", "label": "Conveyor Sequence Frame", "aspect": "landscape", "enabled": true }
+      ]
+    },
+    {
+      "id": "ofsaa",
+      "title": "OFSAA Nike XC AR",
+      "gallery": [
+        { "type": "video", "src": "/gallery/ofsaa/finish-on-empty.mp4", "poster": "/gallery/ofsaa/finish-on-empty-poster.webp", "label": "Finish On Empty / GIPHY", "aspect": "square", "enabled": true },
+        { "type": "video", "src": "/api/portfolio/media/portfolio/ofsaa/9f706391-63ea-46a3-8e8e-831b9afccdb6-Video-2021-10-29-11-54-47-AM.mp4", "label": "Field Test / 11:54", "aspect": "portrait", "enabled": true },
+        { "type": "video", "src": "/api/portfolio/media/portfolio/ofsaa/ee6c18d0-0d84-4ba6-9121-b5cd415a60aa-Video-2021-10-29-11-56-49-AM.mp4", "label": "Field Test / 11:56", "aspect": "portrait", "enabled": true }
+      ]
+    },
+    {
+      "id": "rayguns",
+      "title": "Roswell Rayguns",
+      "gallery": [
+        { "type": "video", "src": "/gallery/rayguns/final-4x5.mp4", "poster": "/gallery/rayguns/final-4x5-poster.webp", "label": "Campaign Film / 4:5", "aspect": "portrait", "enabled": true },
+        { "type": "video", "src": "/gallery/rayguns/final-9x16.mp4", "poster": "/gallery/rayguns/final-9x16-poster.webp", "label": "Campaign Film / 9:16", "aspect": "portrait", "enabled": false }
+      ]
+    },
+    {
+      "id": "canada",
+      "title": "Canada Soccer Jersey",
+      "gallery": [
+        { "type": "video", "src": "/gallery/canada/launch-film.mp4", "poster": "/gallery/canada/launch-film-poster.webp", "label": "Canada Soccer Launch Film", "aspect": "portrait", "enabled": true },
+        { "type": "image", "src": "/gallery/canada/jersey-1x1.webp", "label": "Jersey Still / 1:1", "aspect": "square", "enabled": false },
+        { "type": "image", "src": "/gallery/canada/jersey-4x5.webp", "label": "Jersey Still / 4:5", "aspect": "portrait", "enabled": false },
+        { "type": "image", "src": "/gallery/canada/jersey-horizontal.webp", "label": "Jersey Still / Landscape", "aspect": "landscape", "enabled": true }
+      ]
+    }
+  ]
+}

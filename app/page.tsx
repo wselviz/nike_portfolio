@@ -710,9 +710,11 @@ export default function Home() {
   const [shoeInspecting, setShoeInspecting] = useState(false);
 
   useEffect(() => {
-    if (IS_PUBLIC_STATIC_BUILD) return;
     const controller = new AbortController();
-    void fetch("/api/portfolio", {
+    const manifestUrl = IS_PUBLIC_STATIC_BUILD
+      ? assetUrl("/portfolio-public.json")
+      : "/api/portfolio";
+    void fetch(manifestUrl, {
       cache: "no-store",
       signal: controller.signal,
     })
