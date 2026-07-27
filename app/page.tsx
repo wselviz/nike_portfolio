@@ -875,9 +875,9 @@ export default function Home() {
       if (!shoePresentation) return;
       const isMobile = window.innerWidth < 720;
       const isTablet = window.innerWidth < 1100;
-      const scale = isMobile ? 0.11 : isTablet ? 0.19 : 0.255;
-      const x = isMobile ? 0.52 : isTablet ? 1.6 : 2.35;
-      const y = isMobile ? 1.05 : isTablet ? 0.72 : 0.52;
+      const scale = isMobile ? 0.1 : isTablet ? 0.19 : 0.255;
+      const x = isMobile ? 0.55 : isTablet ? 1.6 : 2.35;
+      const y = isMobile ? 1.42 : isTablet ? 0.72 : 0.52;
       const z = isMobile ? 1.9 : 1.45;
       shoePresentation.scale.setScalar(scale);
       shoePresentation.position.set(x, y, z);
@@ -1245,9 +1245,22 @@ export default function Home() {
         );
         shoePresentation.scale.setScalar(targetScale);
 
-        const heroPitch = reduceMotion ? 0.035 : pointer.y * 0.075 + 0.035;
-        const heroYaw = reduceMotion ? 0 : pointer.x * 0.17;
-        const heroRoll = reduceMotion ? -0.055 : pointer.x * -0.045 - 0.055;
+        const mobileHero = window.innerWidth < 720;
+        const heroPitch = reduceMotion
+          ? 0.035
+          : mobileHero
+            ? Math.sin(time * 0.48) * 0.018 + 0.025
+            : pointer.y * 0.075 + 0.035;
+        const heroYaw = reduceMotion
+          ? 0
+          : mobileHero
+            ? Math.sin(time * 0.62) * 0.12
+            : pointer.x * 0.17;
+        const heroRoll = reduceMotion
+          ? -0.055
+          : mobileHero
+            ? Math.sin(time * 0.38) * 0.018 - 0.04
+            : pointer.x * -0.045 - 0.055;
         const targetPitch = THREE.MathUtils.lerp(heroPitch, inspectionPitch, inspectionBlend);
         const targetYaw = THREE.MathUtils.lerp(heroYaw, inspectionYaw, inspectionBlend);
         const targetRoll = THREE.MathUtils.lerp(heroRoll, 0, inspectionBlend);
