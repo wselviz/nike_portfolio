@@ -875,9 +875,9 @@ export default function Home() {
       if (!shoePresentation) return;
       const isMobile = window.innerWidth < 720;
       const isTablet = window.innerWidth < 1100;
-      const scale = isMobile ? 0.11 : isTablet ? 0.19 : 0.255;
-      const x = isMobile ? 0.52 : isTablet ? 1.6 : 2.35;
-      const y = isMobile ? 1.05 : isTablet ? 0.72 : 0.52;
+      const scale = isMobile ? 0.1 : isTablet ? 0.19 : 0.255;
+      const x = isMobile ? 0.35 : isTablet ? 1.6 : 2.35;
+      const y = isMobile ? 0.9 : isTablet ? 0.72 : 0.52;
       const z = isMobile ? 1.9 : 1.45;
       shoePresentation.scale.setScalar(scale);
       shoePresentation.position.set(x, y, z);
