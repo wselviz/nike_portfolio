@@ -11,7 +11,10 @@ const legacyMarker = "const projects: Project[] = [";
 const start = source.indexOf(startMarker) >= 0
   ? source.indexOf(startMarker) + startMarker.length - 1
   : source.indexOf(legacyMarker) + legacyMarker.length - 1;
-const end = source.indexOf("\n];\n\nfunction ArrowIcon", start) + 2;
+const endMarker = source.indexOf("\n];\n\nconst roleFitSignals", start) >= 0
+  ? "\n];\n\nconst roleFitSignals"
+  : "\n];\n\nfunction ArrowIcon";
+const end = source.indexOf(endMarker, start) + 2;
 
 if (start < 0 || end < 2) {
   throw new Error("Could not locate the default project data in app/page.tsx.");
@@ -20,7 +23,7 @@ if (start < 0 || end < 2) {
 const literal = source.slice(start, end);
 const projects = Function(`"use strict"; return (${literal});`)();
 const manifest = {
-  version: 1,
+  version: 2,
   projects: projects.map((project, projectIndex) => ({
     ...project,
     enabled: project.enabled !== false,

@@ -1,6 +1,7 @@
 import { env } from "cloudflare:workers";
 import { getChatGPTUser } from "./chatgpt-auth";
 import {
+  CURRENT_PORTFOLIO_VERSION,
   normalizeManifest,
   type PortfolioManifest,
 } from "./portfolio-shared";
@@ -42,17 +43,24 @@ export async function getPortfolioManifest(request: Request): Promise<PortfolioM
     .first<{ manifest_json: string }>();
 
   if (row?.manifest_json) {
-    return normalizeManifest(JSON.parse(row.manifest_json));
+    const stored = normalizeManifest(JSON.parse(row.manifest_json));
+    if (stored.version >= CURRENT_PORTFOLIO_VERSION) {
+      return stored;
+    }
+
+    const defaults = await getDefaultManifest(request);
+    const upgraded = upgradePortfolioManifest(stored, defaults);
+    await runtime.DB.prepare(
+      `UPDATE portfolio_configs
+        SET manifest_json = ?1, updated_at = CURRENT_TIMESTAMP, updated_by = ?2
+        WHERE id = ?3`,
+    )
+      .bind(JSON.stringify(upgraded), "system-migration-v2", 1)
+      .run();
+    return upgraded;
   }
 
-  const defaultsResponse = await runtime.ASSETS.fetch(
-    new Request(new URL("/portfolio-default.json", request.url)),
-  );
-  if (!defaultsResponse.ok) {
-    throw new Error("The default portfolio manifest is unavailable.");
-  }
-
-  const manifest = normalizeManifest(await defaultsResponse.json());
+  const manifest = await getDefaultManifest(request);
   await runtime.DB.prepare(
     `INSERT OR IGNORE INTO portfolio_configs
       (id, manifest_json, updated_at, updated_by)
@@ -61,6 +69,40 @@ export async function getPortfolioManifest(request: Request): Promise<PortfolioM
     .bind(1, JSON.stringify(manifest), "system")
     .run();
   return manifest;
+}
+
+async function getDefaultManifest(request: Request): Promise<PortfolioManifest> {
+  const defaultsResponse = await runtime.ASSETS.fetch(
+    new Request(new URL("/portfolio-default.json", request.url)),
+  );
+  if (!defaultsResponse.ok) {
+    throw new Error("The default portfolio manifest is unavailable.");
+  }
+  return normalizeManifest(await defaultsResponse.json());
+}
+
+function upgradePortfolioManifest(
+  stored: PortfolioManifest,
+  defaults: PortfolioManifest,
+): PortfolioManifest {
+  const defaultAirMax = defaults.projects.find((project) => project.id === "amd");
+  const projects = stored.projects.map((project) => {
+    if (project.id !== "amd" || !defaultAirMax) return project;
+    return {
+      ...project,
+      year: defaultAirMax.year,
+      discipline: defaultAirMax.discipline,
+      summary: defaultAirMax.summary,
+      role: defaultAirMax.role,
+      deliverables: defaultAirMax.deliverables,
+    };
+  });
+
+  return normalizeManifest({
+    ...stored,
+    version: CURRENT_PORTFOLIO_VERSION,
+    projects,
+  });
 }
 
 export async function savePortfolioManifest(

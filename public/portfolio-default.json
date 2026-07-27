@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "projects": [
     {
       "id": "tec",
@@ -307,18 +307,20 @@
     },
     {
       "id": "amd",
-      "year": "2021",
+      "year": "2022",
       "title": "Air Max Day Worldwide",
       "region": "Toronto, Canada",
       "status": "Confirmed",
-      "discipline": "3D / AR / live experience",
-      "summary": "A live-show chapter combining 3D animation, AR, a boundary-pushing local panel, and co-production with Nike.",
-      "role": "Featured artist, 3D animation, panel curation, co-production",
+      "discipline": "Global campaign / 3D / live experience",
+      "summary": "Selected to represent Canada in Nike's global Air Max Day campaign, Bring the Future to Light—combining a featured artist story, 3D motion, a live broadcast, and a boundary-pushing local panel.",
+      "role": "Canada campaign representative, featured artist, 3D animation, panel curation, co-production",
       "deliverables": [
+        "Bring the Future to Light",
+        "Global campaign feature",
         "3D animation",
         "EVO reel",
         "AR frames",
-        "Conveyor visuals",
+        "Livestream motion system",
         "Panel curation"
       ],
       "media": "/media/2021-amd.mp4",
