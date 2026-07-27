@@ -977,7 +977,6 @@ export default function Home() {
           <a href="#role-fit">Role Fit</a>
           <a href="#projects">Projects</a>
           <a href="#origin">Origin</a>
-          <a href="/studio">Studio</a>
         </nav>
       </header>
 

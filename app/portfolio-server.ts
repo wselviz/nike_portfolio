@@ -10,28 +10,20 @@ type PortfolioEnv = {
   ASSETS: Fetcher;
   DB: D1Database;
   MEDIA: R2Bucket;
+  PORTFOLIO_OWNER_EMAIL?: string;
 };
 
 const runtime = env as unknown as PortfolioEnv;
-const INITIAL_ADMIN_EMAIL = "selviz@rendrd.com";
 
 export async function ensurePortfolioSchema() {
-  await runtime.DB.batch([
-    runtime.DB.prepare(`
-      CREATE TABLE IF NOT EXISTS portfolio_configs (
-        id INTEGER PRIMARY KEY,
-        manifest_json TEXT NOT NULL,
-        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_by TEXT NOT NULL
-      )
-    `),
-    runtime.DB.prepare(`
-      CREATE TABLE IF NOT EXISTS portfolio_admins (
-        email TEXT PRIMARY KEY,
-        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-      )
-    `),
-  ]);
+  await runtime.DB.prepare(`
+    CREATE TABLE IF NOT EXISTS portfolio_configs (
+      id INTEGER PRIMARY KEY,
+      manifest_json TEXT NOT NULL,
+      updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      updated_by TEXT NOT NULL
+    )
+  `).run();
 }
 
 export async function getPortfolioManifest(request: Request): Promise<PortfolioManifest> {
@@ -145,44 +137,25 @@ export async function requirePortfolioAdmin() {
     return { error: Response.json({ error: "Sign in required." }, { status: 401 }) };
   }
 
-  await ensurePortfolioSchema();
-  const count = await runtime.DB.prepare(
-    "SELECT COUNT(*) AS count FROM portfolio_admins",
-  ).first<{ count: number }>();
-
-  if (!count?.count && user.email.toLowerCase() !== INITIAL_ADMIN_EMAIL) {
+  const ownerEmail = runtime.PORTFOLIO_OWNER_EMAIL?.trim().toLowerCase();
+  if (!ownerEmail || user.email.trim().toLowerCase() !== ownerEmail) {
     return {
       error: Response.json(
-        { error: "This account is not authorized to manage the portfolio." },
-        { status: 403 },
-      ),
-    };
-  }
-
-  if (!count?.count) {
-    await runtime.DB.prepare(
-      "INSERT OR IGNORE INTO portfolio_admins (email) VALUES (?1)",
-    )
-      .bind(user.email.toLowerCase())
-      .run();
-  }
-
-  const admin = await runtime.DB.prepare(
-    "SELECT email FROM portfolio_admins WHERE email = ?1",
-  )
-    .bind(user.email.toLowerCase())
-    .first<{ email: string }>();
-
-  if (!admin) {
-    return {
-      error: Response.json(
-        { error: "This account is not authorized to manage the portfolio." },
+        { error: "Not found." },
         { status: 403 },
       ),
     };
   }
 
   return { user };
+}
+
+export function rejectCrossOriginMutation(request: Request): Response | null {
+  const origin = request.headers.get("origin");
+  if (!origin || origin !== new URL(request.url).origin) {
+    return Response.json({ error: "Request denied." }, { status: 403 });
+  }
+  return null;
 }
 
 export function portfolioRuntime() {

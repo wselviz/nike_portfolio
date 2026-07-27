@@ -1,5 +1,6 @@
 import {
   portfolioRuntime,
+  rejectCrossOriginMutation,
   requirePortfolioAdmin,
 } from "../../../portfolio-server";
 
@@ -9,6 +10,9 @@ const MAX_UPLOAD_BYTES = 500 * 1024 * 1024;
 
 export async function POST(request: Request) {
   try {
+    const crossOriginError = rejectCrossOriginMutation(request);
+    if (crossOriginError) return crossOriginError;
+
     const authorization = await requirePortfolioAdmin();
     if ("error" in authorization) return authorization.error;
 

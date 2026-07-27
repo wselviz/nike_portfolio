@@ -1,5 +1,6 @@
 import {
   getPortfolioManifest,
+  rejectCrossOriginMutation,
   requirePortfolioAdmin,
   savePortfolioManifest,
 } from "../../portfolio-server";
@@ -43,6 +44,9 @@ export async function GET(request: Request) {
 
 export async function PUT(request: Request) {
   try {
+    const crossOriginError = rejectCrossOriginMutation(request);
+    if (crossOriginError) return crossOriginError;
+
     const authorization = await requirePortfolioAdmin();
     if ("error" in authorization) return authorization.error;
 
