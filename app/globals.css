@@ -1405,12 +1405,21 @@ button {
   background-size: 6px 6px;
 }
 
-.origin-object img {
+.origin-object img,
+.origin-object video {
   width: 100%;
   height: 100%;
   display: block;
-  object-fit: cover;
   transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s;
+}
+
+.origin-object img {
+  object-fit: cover;
+}
+
+.origin-object video {
+  object-fit: contain;
+  background: #050505;
 }
 
 .origin-object-main img {
@@ -1420,6 +1429,10 @@ button {
 .origin-object:hover img {
   filter: saturate(1.08) contrast(1.03);
   transform: scale(1.04);
+}
+
+.origin-object:hover video {
+  filter: saturate(1.08) contrast(1.03);
 }
 
 .origin-object figcaption {

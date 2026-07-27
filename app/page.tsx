@@ -1645,12 +1645,18 @@ export default function Home() {
 
         <div className="origin-object-grid" aria-label="Solely 3D-printed sneaker details">
           <figure className="origin-object origin-object-main">
-            <img
-              src="/origin/solely-side.jpg"
-              loading="lazy"
-              alt="Side profile of the Solely sneaker with a 3D-printed heel structure"
+            <video
+              src="/origin/solely-animation-recap.mp4"
+              poster="/origin/solely-side.jpg"
+              controls
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              data-auto-video
+              aria-label="Solely sustainable 3D-printed sneaker animation recap"
             />
-            <figcaption>SOLELY / WEARABLE PROTOTYPE</figcaption>
+            <figcaption>SOLELY / ANIMATION RECAP</figcaption>
           </figure>
           <figure className="origin-object">
             <img
