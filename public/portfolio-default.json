@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "projects": [
     {
       "id": "tec",
@@ -8,7 +8,7 @@
       "region": "Toronto, Canada",
       "status": "Confirmed",
       "discipline": "CGI / 3D / VFX / social",
-      "summary": "I built the store-opening visual system from the first CGI rollout through social, installation, and Nike By You content.",
+      "summary": "A fast-turnaround visual system for the store-opening activation, moving from pre-rollout CGI into social, installation, and Nike By You content.",
       "role": "CGI, 3D, VFX, workflow development",
       "deliverables": [
         "Pre-rollout CGI",
@@ -198,7 +198,7 @@
       "region": "Toronto, Canada",
       "status": "Confirmed",
       "discipline": "Global campaign / 3D / live experience",
-      "summary": "Nike selected me to represent Canada in the global Bring the Future to Light campaign. I created 3D motion, helped produce the live broadcast, and curated the local panel.",
+      "summary": "Selected to represent Canada in Nike's global Air Max Day campaign, Bring the Future to Light, combining a featured artist story, 3D motion, a live broadcast, and a boundary-pushing local panel.",
       "role": "Canada campaign representative, featured artist, 3D animation, panel curation, co-production",
       "deliverables": [
         "Bring the Future to Light",

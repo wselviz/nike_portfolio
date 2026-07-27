@@ -23,7 +23,7 @@ if (start < 0 || end < 2) {
 const literal = source.slice(start, end);
 const projects = Function(`"use strict"; return (${literal});`)();
 const manifest = {
-  version: 3,
+  version: 4,
   projects: projects
     .map((project, projectIndex) => ({
       ...project,

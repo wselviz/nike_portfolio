@@ -55,7 +55,7 @@ export async function getPortfolioManifest(request: Request): Promise<PortfolioM
         SET manifest_json = ?1, updated_at = CURRENT_TIMESTAMP, updated_by = ?2
         WHERE id = ?3`,
     )
-      .bind(JSON.stringify(upgraded), "system-migration-v3", 1)
+      .bind(JSON.stringify(upgraded), "system-migration-v4", 1)
       .run();
     return upgraded;
   }
